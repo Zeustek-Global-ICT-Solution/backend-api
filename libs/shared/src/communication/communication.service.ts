@@ -1,0 +1,51 @@
+import { Inject, Injectable } from '@nestjs/common';
+import { EMAIL_TOKEN, SMS_TOKEN } from '../constant';
+import { EmailClient } from '@azure/communication-email';
+import { SmsClient } from '@azure/communication-sms';
+import { ConfigService } from '@nestjs/config';
+
+@Injectable()
+export class CommunicationService {
+  constructor(
+    @Inject(EMAIL_TOKEN) private readonly emailClient: EmailClient,
+    @Inject(SMS_TOKEN) private readonly smsClient: SmsClient,
+    protected config: ConfigService,
+  ) {}
+  public async sendEmmail(payload: any) {
+    try {
+      const emailMessage = {
+        senderAddress: this.config.get<string>('service.azure.domain'),
+        content: {
+          subject: payload.subject,
+          plainText: payload.body,
+        },
+        recipients: {
+          to: payload.emails, //[{ address: payload.email }],
+        },
+      };
+
+      const poller = await this.emailClient.beginSend(emailMessage);
+      return await poller.pollUntilDone();
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  public async sendPhone(payload: any) {
+    try {
+      return await this.smsClient.send(
+        {
+          from: this.config.get<string>('service.azure.phone'), // Your E.164 formatted phone number used to send SMS
+          to: payload.phones, // The list of E.164 formatted phone numbers to which message is being sent
+          message: payload.message, // The message being sent
+        },
+        {
+          enableDeliveryReport: true,
+          tag: 'marketing',
+        },
+      );
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+}
