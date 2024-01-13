@@ -1,1 +1,1 @@
-export * from '../filters/response.filter';
+export * from './response.filter';
