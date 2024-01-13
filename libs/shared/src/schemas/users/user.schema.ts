@@ -24,6 +24,9 @@ export class User {
   deviceToken: string;
 
   @Prop()
+  profileImage: string;
+
+  @Prop()
   refreshToken: string;
 }
 
