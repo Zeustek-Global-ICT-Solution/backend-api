@@ -22,8 +22,15 @@ export class UsersService {
     return this.usersRepository.findAll();
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOneById(id: string): Promise<User> {
     return this.usersRepository.findById(id);
+  }
+
+  async findOne(payload: Record<string, any>): Promise<User> {
+    const result = await this.usersRepository.find(payload);
+    if (result && result.length > 0) {
+      return result[0];
+    }
   }
 
   async update(
