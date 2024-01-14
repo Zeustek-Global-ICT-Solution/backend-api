@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { redisStore } from 'cache-manager-redis-yet';
-import { CacheModule } from '@nestjs/cache-manager';
+// import { redisStore } from 'cache-manager-redis-yet';
+// import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
@@ -16,11 +16,11 @@ import { JwtModule } from '@nestjs/jwt';
       },
       inject: [ConfigService],
     }),
-    CacheModule.register({
-      uri: process.env.REDIS_URL,
-      store: redisStore,
-      isGlobal: true,
-    }),
+    // CacheModule.register({
+    //   uri: process.env.REDIS_URL,
+    //   store: redisStore,
+    //   isGlobal: true,
+    // }),
   ],
 })
 export class CoreModule {}
