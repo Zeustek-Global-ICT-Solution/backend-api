@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { redisStore } from 'cache-manager-redis-yet';
-import { CacheModule } from '@nestjs/cache-manager';
+// import { redisStore } from 'cache-manager-redis-yet';
+// import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
-    CacheModule.register({
-      uri: process.env.REDIS_URL,
-      store: redisStore,
-      isGlobal: true,
-    }),
+    // CacheModule.register({
+    //   uri: process.env.REDIS_URL,
+    //   store: redisStore,
+    //   isGlobal: true,
+    // }),
   ],
 })
 export class CoreModule {}
