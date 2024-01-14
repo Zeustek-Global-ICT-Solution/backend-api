@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 
 export type UserDocument = User & Document;
 
@@ -84,3 +84,9 @@ UserSchema.methods.comparePassword = function (candidatePassword, cb) {
     cb(null, isMatch);
   });
 };
+
+UserSchema.virtual('responses', {
+  ref: 'Response',
+  localField: '_id',
+  foreignField: 'userId',
+});

@@ -29,25 +29,39 @@ export class AuthController {
 
   @Post('/register')
   @HttpCode(HttpStatus.CREATED)
-  register(
+  async register(
     @Body() createAuthDto: CreateAuthDto,
     @Req() req,
     @Res() res,
     @Next() next: NextFunction,
   ) {
-    return this.authService.register(createAuthDto);
+    try {
+      const response = await this.authService.register(createAuthDto);
+      return res.status(201).json(response);
+    } catch (error) {
+      next(error);
+    }
   }
 
   @Post('/login')
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
-  login(
+  async login(
     @Body() createAuthDto: CreateAuthDto,
     @Req() req,
     @Res() res,
     @Next() next: NextFunction,
   ) {
-    return this.authService.login(createAuthDto);
+    try {
+      console.log(req.user._id);
+
+      const response = await this.authService.login(req.user);
+      return res.status(200).json(response);
+    } catch (error) {
+      console.log(error);
+
+      next(error);
+    }
   }
 
   @Get('/:token')

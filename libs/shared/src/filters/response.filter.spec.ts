@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { ResponseFilter } from '../filters/response.filter';
+import { ResponseFilter } from './response.filter';
 
 export class CustomException {
   constructor(

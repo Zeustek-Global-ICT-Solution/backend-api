@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
@@ -10,49 +11,16 @@ export class Conversation {
     type: 'string',
     required: false,
   })
-  firstName: string;
+  title: string;
 
   @Prop({
     type: 'string',
     required: false,
   })
-  lastName: string;
+  prompts: string;
 
-  @Prop({
-    type: 'string',
-    required: false,
-  })
-  phone: string;
-
-  @Prop({
-    type: 'string',
-    required: false,
-  })
-  email: string;
-
-  @Prop({
-    type: 'string',
-    required: true,
-  })
-  password: string;
-
-  @Prop({
-    type: 'string',
-    required: false,
-  })
-  deviceToken: string;
-
-  @Prop({
-    type: 'string',
-    required: false,
-  })
-  profileImage: string;
-
-  @Prop({
-    type: 'string',
-    required: false,
-  })
-  refreshToken: string;
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  userId: Types.ObjectId;
 }
 
 export const ConversationSchema = SchemaFactory.createForClass(Conversation);

@@ -9,20 +9,22 @@ import { ConfigModule } from '@nestjs/config';
 import { configuration } from '@app/shared';
 import { DatabaseModule } from '@app/shared/database/database.module';
 import { CoreModule } from '@app/shared/core/core.module';
+import { TerminusModule } from '@nestjs/terminus';
 
 @Module({
   imports: [
-    UsersModule,
-    AuthModule,
-    WhatsappAssistantsModule,
-    ConversationsModule,
-    DatabaseModule,
-    CoreModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],
       load: [configuration],
     }),
+    UsersModule,
+    AuthModule,
+    WhatsappAssistantsModule,
+    ConversationsModule,
+    TerminusModule,
+    DatabaseModule,
+    CoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

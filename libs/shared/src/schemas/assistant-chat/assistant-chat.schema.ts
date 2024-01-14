@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
@@ -10,20 +11,16 @@ export class AssistantChat {
     type: 'string',
     required: false,
   })
-  content: string;
+  user: string;
 
   @Prop({
     type: 'string',
     required: false,
   })
-  accessToken: string;
+  messages: string;
 
-  @Prop({
-    type: 'string',
-    enum: ['text', 'image'],
-    default: 'text',
-  })
-  type: any;
+  @Prop({ type: Types.ObjectId, ref: 'User' })
+  userId: Types.ObjectId;
 }
 
 export const AssistantChatSchema = SchemaFactory.createForClass(AssistantChat);

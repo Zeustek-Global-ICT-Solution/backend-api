@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const PORT = process.env.PORT || 3000;
 
-  const globalPrefix = 'api';
+  const globalPrefix = '/api';
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalFilters(new ResponseFilter());
   app.useGlobalPipes(new ValidationPipe());
