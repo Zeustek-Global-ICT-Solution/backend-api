@@ -2,10 +2,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type propmtDocument = Prompt & Document;
+export type AssistantChatDocument = AssistantChat & Document;
 
-@Schema({ collection: 'prompts', timestamps: true })
-export class Prompt {
+@Schema({ collection: 'assistantChats', timestamps: true })
+export class AssistantChat {
   @Prop({
     type: 'string',
     required: false,
@@ -20,4 +20,4 @@ export class Prompt {
   type: any;
 }
 
-export const PromptSchema = SchemaFactory.createForClass(Prompt);
+export const AssistantChatSchema = SchemaFactory.createForClass(AssistantChat);
