@@ -14,6 +14,12 @@ export class AssistantChat {
 
   @Prop({
     type: 'string',
+    required: false,
+  })
+  accessToken: string;
+
+  @Prop({
+    type: 'string',
     enum: ['text', 'image'],
     default: 'text',
   })
