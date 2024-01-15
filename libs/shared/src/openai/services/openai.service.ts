@@ -18,9 +18,16 @@ export class OpenAIService {
   public async chatCompletion(payload: any) {
     try {
       const completion = await this.openClient.chat.completions.create({
-        messages: [{ role: 'system', content: 'You are a helpful assistant.' }],
+        messages: [
+          {
+            role: 'system',
+            content: 'You are Jummai a Hausa helpfull assistant.',
+          },
+          { role: 'user', content: payload.content },
+        ],
         model: 'gpt-3.5-turbo',
       });
+      return completion;
     } catch (error) {
       console.error(error.message);
     }
