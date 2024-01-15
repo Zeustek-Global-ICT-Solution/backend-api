@@ -10,10 +10,12 @@ import { configuration } from '@app/shared';
 import { DatabaseModule } from '@app/shared/database/database.module';
 import { CoreModule } from '@app/shared/core/core.module';
 import { TerminusModule } from '@nestjs/terminus';
+import { HttpModule } from '@nestjs/axios';
 import { FilesUploadModule } from './files-upload/files-upload.module';
 
 @Module({
   imports: [
+    HttpModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],
