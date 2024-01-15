@@ -7,12 +7,14 @@ import { UpdateAuthDto } from '../dto/update-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { AppException } from '@app/shared';
 import * as bcrypt from 'bcrypt';
+import { CommunicationService } from '@app/shared/communication/services/communication.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     protected jwtService: JwtService,
+    protected communicationService: CommunicationService,
   ) {}
   async register(createAuthDto: any) {
     try {
@@ -83,8 +85,25 @@ export class AuthService {
     return `This action returns a #${id} auth`;
   }
 
-  resetPassword(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
+  async getToken(identity: string) {
+    try {
+      const payload = {};
+      const isEmail = Utils.isEmail(identity);
+      console.log(isEmail);
+      if (isEmail) {
+        Object.assign(payload, { address: identity });
+        return await this.communicationService.sendEmail({
+          subject: 'Reset Password',
+          body: `Jummai verification code: ${123456}`,
+          emails: [payload],
+        });
+      } else {
+        Object.assign(payload, { phone: identity });
+        return await this.communicationService.sendSMS({});
+      }
+    } catch (error) {
+      throw new AppException(400, error);
+    }
   }
 
   remove(id: number) {

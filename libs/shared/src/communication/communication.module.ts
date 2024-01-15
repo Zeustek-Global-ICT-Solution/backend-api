@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
-import { AzureCommunicationProviders } from './communication.provider';
-import { CommunicationService } from './communication.service';
+import { AzureCommunicationProviders } from './porviders/communication.provider';
+import { CommunicationService } from './services/communication.service';
 
 @Global()
 @Module({

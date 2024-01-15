@@ -20,10 +20,14 @@ export const configuration = () => ({
     version: 1,
     lang: 'en',
     azure: {
-      communicationServicesConnectionString:
-        'endpoint=https://jummaicommunication.unitedstates.communication.azure.com/;accesskey=NzrHN6VM/Z98XT88dfq62vR/xfo6Sgd0hHydPFtDTvbBAs1evX3lpDJE7rtJ7TT6ZYPLDuwxmNxpPZeSxULQLA==',
       domain: 'DoNotReply@2ed7595d-dce8-4b8d-8f04-57930414f89f.azurecomm.net',
       phone: '+18449197534',
+      fileUploadConnectionString:
+        process.env.AZURE_BLOB_STORAGE_CONNECTION_STRING,
+      containerName: process.env.AZURE_BLOB_CONTAINER_NAME,
+      communicationConnectionString:
+        process.env.AZURE_COMMUNICATION_CONNECTION_STRING,
+      emailDomain: process.env.AZURE_EMAIL_DOMAIN,
     },
   },
 });

@@ -10,6 +10,7 @@ import { configuration } from '@app/shared';
 import { DatabaseModule } from '@app/shared/database/database.module';
 import { CoreModule } from '@app/shared/core/core.module';
 import { TerminusModule } from '@nestjs/terminus';
+import { FilesUploadModule } from './files-upload/files-upload.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { TerminusModule } from '@nestjs/terminus';
     TerminusModule,
     DatabaseModule,
     CoreModule,
+    FilesUploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

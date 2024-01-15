@@ -75,15 +75,20 @@ export class AuthController {
     return this.authService.verify(token);
   }
 
-  @Patch('/:id/reset-password')
+  @Patch('/:identity/get-token')
   @HttpCode(HttpStatus.OK)
-  update(
-    @Param('id') id: string,
+  async update(
+    @Param('identity') identity: string,
     @Body() updateAuthDto: UpdateAuthDto,
     @Req() req,
     @Res() res,
     @Next() next: NextFunction,
   ) {
-    return this.authService.resetPassword(+id, updateAuthDto);
+    try {
+      const response = await this.authService.getToken(identity);
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
   }
 }
