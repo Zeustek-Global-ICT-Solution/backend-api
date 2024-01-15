@@ -1,3 +1,4 @@
+import { JwtAuthGuard } from './../../auth/guards/jwt-auth.guard';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Controller,
@@ -12,6 +13,7 @@ import {
   Res,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -24,6 +26,7 @@ export class UsersController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard)
   async create(
     @Body() createUserDto: CreateUserDto,
     @Req() req,
@@ -45,6 +48,7 @@ export class UsersController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
   async findAll(@Req() req, @Res() res, @Next() next: NextFunction) {
     try {
       const value = await this.usersService.findAll();
@@ -61,6 +65,7 @@ export class UsersController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
   async findOne(
     @Param('id') id: string,
     @Req() req,
@@ -81,6 +86,7 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   async update(
     @Param('id') id: string,
@@ -104,6 +110,7 @@ export class UsersController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
   async remove(
     @Param('id') id: string,
     @Req() req,

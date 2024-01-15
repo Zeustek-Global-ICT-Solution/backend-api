@@ -1,14 +1,19 @@
 import { Module } from '@nestjs/common';
-// import { redisStore } from 'cache-manager-redis-yet';
-// import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
-    // CacheModule.register({
-    //   url: process.env.REDIS_URL,
-    //   store: redisStore,
-    //   isGlobal: true,
-    // }),
+    CacheModule.register({
+      store: redisStore,
+      port: 6380,
+      auth_pass: 'baS5t8uIQJfxLjlKbzuzoJdRoxPCd7HMrAzCaHKJwFw=',
+      host: 'jummaiCacheStore.redis.cache.windows.net',
+      tls: {
+        host: 'jummaiCacheStore.redis.cache.windows.net',
+      },
+      isGlobal: true,
+    }),
   ],
 })
 export class CoreModule {}

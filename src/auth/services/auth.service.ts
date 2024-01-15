@@ -1,14 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Utils } from './../../../libs/shared/src/utils/utils/index';
 import { UsersService } from './../../users/services/users.service';
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from '../dto/create-auth.dto';
-import { UpdateAuthDto } from '../dto/update-auth.dto';
+import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AppException } from '@app/shared';
 import * as bcrypt from 'bcrypt';
 import { CommunicationService } from '@app/shared/communication/services/communication.service';
 import { BaseService } from '@app/shared/base/base.service';
+import { ConfigService } from '@nestjs/config';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class AuthService extends BaseService {
@@ -16,9 +17,12 @@ export class AuthService extends BaseService {
     private readonly usersService: UsersService,
     protected jwtService: JwtService,
     protected communicationService: CommunicationService,
+    protected config: ConfigService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {
     super();
   }
+
   async register(createAuthDto: any) {
     try {
       const user = await this.usersService.findOne({
@@ -92,12 +96,18 @@ export class AuthService extends BaseService {
     try {
       const payload = {};
       const isEmail = Utils.isEmail(identity);
-      console.log(isEmail);
+      const token =
+        this.config.get<string>('service.nodeEnv') == 'production'
+          ? Utils.generateToke()
+          : 123456;
+      const saved = await this.cacheManager.set(identity, token, 60000);
+      console.log(saved);
+
       if (isEmail) {
         Object.assign(payload, { address: identity });
         return await this.communicationService.sendEmail({
           subject: 'Reset Password',
-          body: `Jummai verification code: ${123456}`,
+          body: `Jummai verification code: ${token}`,
           emails: [payload],
         });
       } else {
@@ -109,11 +119,15 @@ export class AuthService extends BaseService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async resetPassword(payload: any) {
+    try {
+    } catch (error) {
+      throw new AppException(400, error);
+    }
   }
 
-  verify(token: any) {
-    return `This action removes a #${token} auth`;
+  async verify(payload: any) {
+    const result = await this.cacheManager.get(payload.identity);
+    return `This action removes a #${result} auth`;
   }
 }

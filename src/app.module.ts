@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { WhatsappAssistantsModule } from './whatsapp-assistants/whatsapp-assistants.module';
+import { AssistantsModule } from './assistants/assistants.module';
 import { ConversationsModule } from './conversations/conversations.module';
 import { ConfigModule } from '@nestjs/config';
 import { configuration } from '@app/shared';
@@ -23,7 +23,7 @@ import { FilesUploadModule } from './files-upload/files-upload.module';
     }),
     UsersModule,
     AuthModule,
-    WhatsappAssistantsModule,
+    AssistantsModule,
     ConversationsModule,
     TerminusModule,
     DatabaseModule,

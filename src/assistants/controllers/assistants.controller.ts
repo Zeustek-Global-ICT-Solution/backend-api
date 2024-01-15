@@ -7,15 +7,13 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { WhatsappAssistantsService } from '../services/whatsapp-assistants.service';
+import { AssistantsService } from '../services/ssistants.service';
 import { CreateWhatsappAssistantDto } from '../dto/create-whatsapp-assistant.dto';
 import { UpdateWhatsappAssistantDto } from '../dto/update-whatsapp-assistant.dto';
 
-@Controller('whatsapp-assistants')
-export class WhatsappAssistantsController {
-  constructor(
-    private readonly whatsappAssistantsService: WhatsappAssistantsService,
-  ) {}
+@Controller('assistants')
+export class AssistantsController {
+  constructor(private readonly whatsappAssistantsService: AssistantsService) {}
 
   @Post()
   create(@Body() createWhatsappAssistantDto: CreateWhatsappAssistantDto) {

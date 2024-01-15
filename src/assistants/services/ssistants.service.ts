@@ -4,7 +4,7 @@ import { CreateWhatsappAssistantDto } from '../dto/create-whatsapp-assistant.dto
 import { UpdateWhatsappAssistantDto } from '../dto/update-whatsapp-assistant.dto';
 
 @Injectable()
-export class WhatsappAssistantsService {
+export class AssistantsService {
   create(createWhatsappAssistantDto: CreateWhatsappAssistantDto) {
     return 'This action adds a new whatsappAssistant';
   }

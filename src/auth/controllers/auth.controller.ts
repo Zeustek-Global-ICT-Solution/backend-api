@@ -77,16 +77,16 @@ export class AuthController {
     }
   }
 
-  @Get('/:token')
+  @Post('/verify')
   @HttpCode(HttpStatus.OK)
   async verification(
-    @Param('token') token: string,
+    @Body() payload: any,
     @Req() req,
     @Res() res,
     @Next() next: NextFunction,
   ) {
     try {
-      const value = await this.authService.verify(token);
+      const value = await this.authService.verify(payload);
       const response = await this.authService.getResponse({
         code: 200,
         value: value,
@@ -100,11 +100,10 @@ export class AuthController {
     }
   }
 
-  @Patch('/:identity/get-token')
+  @Get('/:identity/get-token')
   @HttpCode(HttpStatus.OK)
-  async update(
+  async getToken(
     @Param('identity') identity: string,
-    @Body() updateAuthDto: UpdateAuthDto,
     @Req() req,
     @Res() res,
     @Next() next: NextFunction,
@@ -115,6 +114,27 @@ export class AuthController {
         code: 200,
         value,
         message: 'Get token was successful',
+      });
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @Patch('/reset-password')
+  @HttpCode(HttpStatus.OK)
+  async update(
+    @Body() payload: any,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const value = await this.authService.resetPassword(payload);
+      const response = await this.authService.getResponse({
+        code: 200,
+        value,
+        message: 'Reset password was successful',
       });
       return res.status(200).json(response);
     } catch (error) {

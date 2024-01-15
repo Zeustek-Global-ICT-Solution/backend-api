@@ -54,6 +54,20 @@ export class User {
     required: false,
   })
   refreshToken: string;
+
+  @Prop({
+    type: 'boolean',
+    required: false,
+    default: false,
+  })
+  isWhatsAppEnabled: boolean;
+
+  @Prop({
+    type: 'string',
+    required: false,
+    default: false,
+  })
+  whatsAppAccessToken: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

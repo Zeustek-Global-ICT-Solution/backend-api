@@ -3,25 +3,30 @@ import { Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type propmtDocument = Prompt & Document;
+export type AssistantDocument = Assistant & Document;
 
-@Schema({ collection: 'prompts', timestamps: true })
-export class Prompt {
+@Schema({ collection: 'assistants', timestamps: true })
+export class Assistant {
   @Prop({
     type: 'string',
     required: false,
   })
-  content: string;
+  name: string;
 
   @Prop({
     type: 'string',
-    enum: ['text', 'image'],
-    default: 'text',
+    required: false,
   })
-  type: string;
+  description: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+  })
+  assistantId: string;
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   userId: Types.ObjectId;
 }
 
-export const PromptSchema = SchemaFactory.createForClass(Prompt);
+export const AssistantSchema = SchemaFactory.createForClass(Assistant);

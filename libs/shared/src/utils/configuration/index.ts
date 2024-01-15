@@ -17,11 +17,11 @@ export const configuration = () => ({
     frontendDomain: process.env.FRONTEND_DOMAIN,
     port: process.env.PORT || 3000,
     host: process.env.HOST,
+    nodeEnv: process.env.NODE_ENV || 'development',
     version: 1,
     lang: 'en',
     azure: {
-      domain: 'DoNotReply@2ed7595d-dce8-4b8d-8f04-57930414f89f.azurecomm.net',
-      phone: '+18449197534',
+      phone: process.env.AZURE_PHONE_NUMBER,
       fileUploadConnectionString:
         process.env.AZURE_BLOB_STORAGE_CONNECTION_STRING,
       containerName: process.env.AZURE_BLOB_CONTAINER_NAME,

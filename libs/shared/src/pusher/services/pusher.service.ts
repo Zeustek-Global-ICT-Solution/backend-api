@@ -9,6 +9,7 @@ export class PusherService {
     @Inject(PUSHER_TOKEN) private readonly pusherClient: Pusher,
     protected config: ConfigService,
   ) {}
+
   public async sendPusherEvent(payload: any) {
     try {
       const response = await this.pusherClient.trigger(

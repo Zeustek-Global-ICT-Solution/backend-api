@@ -77,6 +77,22 @@ export class OpenAIService {
     }
   }
 
+  /* the speech to text
+   *
+   */
+  public async speechToText(payload: any) {
+    try {
+      const response = await this.openClient.audio.transcriptions.create({
+        file: fs.createReadStream(payload.file),
+        model: 'whisper-1',
+      });
+
+      return response;
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   /* Create personal assistant
    *
    */
@@ -90,22 +106,6 @@ export class OpenAIService {
       });
 
       return assistant;
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-
-  /* the speech to text
-   *
-   */
-  public async speechToText(payload: any) {
-    try {
-      const response = await this.openClient.audio.transcriptions.create({
-        file: fs.createReadStream(payload.audio),
-        model: 'whisper-1',
-      });
-
-      return response;
     } catch (error) {
       console.error(error.message);
     }
