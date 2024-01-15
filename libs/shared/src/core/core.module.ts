@@ -6,11 +6,13 @@ import { CacheModule } from '@nestjs/cache-manager';
   imports: [
     CacheModule.register({
       store: redisStore,
-      port: 6379,
-      auth_pass: 'baS5t8uIQJfxLjlKbzuzoJdRoxPCd7HMrAzCaHKJwFw=',
+      port: 6380,
+      auth_pass: 'AbUcLDwFV3YQQtTrUzdAcGpePxfhPiOUcAzCaMZV3nk=',
       host: 'jummaiCacheStore.redis.cache.windows.net',
       tls: {
         host: 'jummaiCacheStore.redis.cache.windows.net',
+        ssl: true,
+        abortConnect: false,
       },
       isGlobal: true,
     }),
