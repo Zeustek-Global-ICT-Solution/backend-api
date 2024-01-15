@@ -11,8 +11,6 @@ import { CacheModule } from '@nestjs/cache-manager';
       host: 'jummaiCacheStore.redis.cache.windows.net',
       tls: {
         host: 'jummaiCacheStore.redis.cache.windows.net',
-        ssl: true,
-        abortConnect: false,
       },
       isGlobal: true,
     }),

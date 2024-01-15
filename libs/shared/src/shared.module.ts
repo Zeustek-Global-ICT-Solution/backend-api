@@ -10,6 +10,13 @@ import { PusherModule } from './pusher/pusher.module';
 @Module({
   providers: [SharedService],
   exports: [SharedService],
-  imports: [CoreModule, DatabaseModule, OpenaiModule, AzureFileUploadModule, AppAssistantEventModule, PusherModule],
+  imports: [
+    CoreModule,
+    DatabaseModule,
+    OpenaiModule,
+    AzureFileUploadModule,
+    AppAssistantEventModule,
+    PusherModule,
+  ],
 })
 export class SharedModule {}
