@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Get,
@@ -6,37 +7,99 @@ import {
   Patch,
   Param,
   Delete,
+  Next,
+  Req,
+  Res,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { NextFunction } from 'express';
 
 @Controller('/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  @HttpCode(HttpStatus.CREATED)
+  async create(
+    @Body() createUserDto: CreateUserDto,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    const value = await this.usersService.create(createUserDto);
+    const response = await this.usersService.getResponse({
+      code: 201,
+      value: value,
+      message: 'Create user was successful',
+    });
+    return res.status(201).json(response);
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @HttpCode(HttpStatus.OK)
+  async findAll(@Req() req, @Res() res, @Next() next: NextFunction) {
+    const value = await this.usersService.findAll();
+    const response = await this.usersService.getResponse({
+      code: 200,
+      value: value,
+      message: 'Find all users was successful',
+    });
+    return res.status(200).json(response);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOneById(id);
+  @HttpCode(HttpStatus.OK)
+  async findOne(
+    @Param('id') id: string,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    const value = await this.usersService.findOneById(id);
+    const response = await this.usersService.getResponse({
+      code: 200,
+      value: value,
+      message: 'Find user was successful',
+    });
+    return res.status(200).json(response);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  @HttpCode(HttpStatus.OK)
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    const value = await this.usersService.update(id, updateUserDto);
+    const response = await this.usersService.getResponse({
+      code: 200,
+      value: value,
+      message: 'Update user was successful',
+    });
+    return res.status(200).json(response);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  @HttpCode(HttpStatus.OK)
+  async remove(
+    @Param('id') id: string,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    const value = await this.usersService.remove(id);
+    const response = await this.usersService.getResponse({
+      code: 200,
+      value: value,
+      message: 'Remove user was successful',
+    });
+    return res.status(200).json(response);
   }
 }

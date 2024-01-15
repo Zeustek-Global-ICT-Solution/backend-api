@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import queryString from 'query-string';
-import Url from 'url-parse';
+// import Url from 'url-parse';
 
 interface PaginationOption {
   totalCount: number;
@@ -36,8 +36,8 @@ export class Pagination {
     itemsPerPage = 10,
   ) {
     // Default pagination object
-    this.urlObj = new Url(`${url}${requestUrl}`);
-    const urlObj: Url = this.urlObj;
+    // this.urlObj = new Url(`${url}${requestUrl}`);
+    const urlObj: any = this.urlObj;
     const search = urlObj.query;
     // Parse the query string into object
     this.query = queryString.parse(search);
@@ -63,9 +63,8 @@ export class Pagination {
     this._current =
       this.query && this.query.page ? parseInt(this.query.page, 10) : 1;
     const page = this._current;
-
     if (page && page > 1) {
-      const urlObj: Url = this.urlObj;
+      const urlObj: any = this.urlObj;
       const previous = page - 1;
       this._skip = previous * perPage;
       this.pagination.previous = previous;
@@ -123,7 +122,7 @@ export class Pagination {
    * @return {void}
    */
   set next(page) {
-    const urlObj: Url = this.urlObj;
+    const urlObj: any = this.urlObj;
     this.pagination.next = page;
     urlObj.set('query', { ...this._queryData, page: page.toString() });
     this.pagination.nextPage = urlObj.href;

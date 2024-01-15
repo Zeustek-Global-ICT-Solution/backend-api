@@ -9,27 +9,47 @@ import {
   UpdatedModel,
 } from 'nestjs-mongoose-generic-repository';
 import { User } from '@app/shared/schemas';
+import { BaseService } from '@app/shared/base/base.service';
+import { AppException } from '@app/shared';
 
 @Injectable()
-export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+export class UsersService extends BaseService {
+  constructor(private readonly usersRepository: UsersRepository) {
+    super();
+  }
 
   async create(createUserDto: CreateUserDto): Promise<CreatedModel> {
-    return this.usersRepository.create(createUserDto);
+    try {
+      return await this.usersRepository.create(createUserDto);
+    } catch (error) {
+      throw new AppException(400, error.message);
+    }
   }
 
   async findAll(): Promise<User[]> {
-    return this.usersRepository.findAll();
+    try {
+      return await this.usersRepository.findAll();
+    } catch (error) {
+      throw new AppException(400, error.message);
+    }
   }
 
   async findOneById(id: string): Promise<User> {
-    return this.usersRepository.findById(id);
+    try {
+      return await this.usersRepository.findById(id);
+    } catch (error) {
+      throw new AppException(400, error.message);
+    }
   }
 
   async findOne(payload: Record<string, any>): Promise<User> {
-    const result = await this.usersRepository.find(payload);
-    if (result && result.length > 0) {
-      return result[0];
+    try {
+      const result = await this.usersRepository.find(payload);
+      if (result && result.length > 0) {
+        return result[0];
+      }
+    } catch (error) {
+      throw new AppException(400, error.message);
     }
   }
 
@@ -37,10 +57,18 @@ export class UsersService {
     id: string,
     updateUserDto: UpdateUserDto,
   ): Promise<UpdatedModel> {
-    return this.usersRepository.updateOne({ _id: id }, updateUserDto);
+    try {
+      return await this.usersRepository.updateOne({ _id: id }, updateUserDto);
+    } catch (error) {
+      throw new AppException(400, error.message);
+    }
   }
 
   async remove(id: string): Promise<RemovedModel> {
-    return this.usersRepository.remove({ _id: id });
+    try {
+      return await this.usersRepository.remove({ _id: id });
+    } catch (error) {
+      throw new AppException(400, error.message);
+    }
   }
 }
