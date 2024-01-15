@@ -14,20 +14,6 @@ export class BaseService {
     remove: true,
   };
 
-  public readonly modelName: string;
-  public baseUrl = 'localhost:3000';
-  public itemsPerPage = 10;
-  public entity;
-
-  private defaultConfig = {
-    softDelete: false,
-    uniques: [],
-    returnDuplicate: false,
-    fillables: [],
-    updateFillables: [],
-    hiddenFields: ['deleted'],
-  };
-
   /**
    * @param {ResponseOption} option: required email for search
    * @return {Object} The formatted response

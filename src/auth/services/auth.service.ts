@@ -8,14 +8,17 @@ import { JwtService } from '@nestjs/jwt';
 import { AppException } from '@app/shared';
 import * as bcrypt from 'bcrypt';
 import { CommunicationService } from '@app/shared/communication/services/communication.service';
+import { BaseService } from '@app/shared/base/base.service';
 
 @Injectable()
-export class AuthService {
+export class AuthService extends BaseService {
   constructor(
     private readonly usersService: UsersService,
     protected jwtService: JwtService,
     protected communicationService: CommunicationService,
-  ) {}
+  ) {
+    super();
+  }
   async register(createAuthDto: any) {
     try {
       const user = await this.usersService.findOne({

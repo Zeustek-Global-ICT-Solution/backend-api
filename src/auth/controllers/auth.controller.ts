@@ -36,7 +36,12 @@ export class AuthController {
     @Next() next: NextFunction,
   ) {
     try {
-      const response = await this.authService.register(createAuthDto);
+      const value = await this.authService.register(createAuthDto);
+      const response = await this.authService.getResponse({
+        code: 201,
+        value: value,
+        message: 'Registration was successful',
+      });
       return res.status(201).json(response);
     } catch (error) {
       next(error);
@@ -53,9 +58,17 @@ export class AuthController {
     @Next() next: NextFunction,
   ) {
     try {
-      console.log(req.user._id);
+      const value = await this.authService.login(req.user);
+      console.log(value);
 
-      const response = await this.authService.login(req.user);
+      const response = await this.authService.getResponse({
+        code: 200,
+        token: value.access_token,
+        value: value.user,
+        message: 'Login was successful',
+      });
+      console.log(response, 'response');
+
       return res.status(200).json(response);
     } catch (error) {
       console.log(error);
@@ -66,13 +79,25 @@ export class AuthController {
 
   @Get('/:token')
   @HttpCode(HttpStatus.OK)
-  findOne(
+  async verification(
     @Param('token') token: string,
     @Req() req,
     @Res() res,
     @Next() next: NextFunction,
   ) {
-    return this.authService.verify(token);
+    try {
+      const value = await this.authService.verify(token);
+      const response = await this.authService.getResponse({
+        code: 200,
+        value: value,
+        message: 'Verification was successful',
+      });
+      return res.status(200).json(response);
+    } catch (error) {
+      console.log(error);
+
+      next(error);
+    }
   }
 
   @Patch('/:identity/get-token')
@@ -85,7 +110,12 @@ export class AuthController {
     @Next() next: NextFunction,
   ) {
     try {
-      const response = await this.authService.getToken(identity);
+      const value = await this.authService.getToken(identity);
+      const response = await this.authService.getResponse({
+        code: 200,
+        value,
+        message: 'Get token was successful',
+      });
       return res.status(200).json(response);
     } catch (error) {
       next(error);

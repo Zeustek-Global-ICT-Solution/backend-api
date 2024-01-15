@@ -40,13 +40,7 @@ export class AppResponse {
       if (option.token) {
         meta.token = option.token;
       }
-      if (option.is2FAEnabled) {
-        meta.is2FAEnabled = option.is2FAEnabled;
-      }
 
-      if (option.type2FA) {
-        meta.type2FA = option.type2FA;
-      }
       Object.assign(meta, { statusCode: option.code });
       if (option.message) {
         meta.message = option.message;
