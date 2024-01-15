@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import queryString from 'query-string';
+// import queryString from 'query-string';
 // import Url from 'url-parse';
 
 interface PaginationOption {
@@ -40,7 +40,7 @@ export class Pagination {
     const urlObj: any = this.urlObj;
     const search = urlObj.query;
     // Parse the query string into object
-    this.query = queryString.parse(search);
+    this.query = search;
     // Grab the pagination object from the query object
 
     // The Limit(count to be returned)
