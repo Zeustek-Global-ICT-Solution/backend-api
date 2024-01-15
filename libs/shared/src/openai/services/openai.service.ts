@@ -120,7 +120,7 @@ export class OpenAIService {
     }
   }
 
-  /* Upload Assistants file
+  /* Attach Assistants file
    *
    */
   public async attachAssistantFile(payload: any) {
@@ -137,7 +137,7 @@ export class OpenAIService {
     }
   }
 
-  /* Upload Assistants file
+  /* Create thread
    *
    */
   public async createThread() {
@@ -149,7 +149,7 @@ export class OpenAIService {
     }
   }
 
-  /* Upload Assistants file
+  /* create thread and run
    *
    */
   public async createThreadAndRun(payload) {
@@ -166,7 +166,7 @@ export class OpenAIService {
     }
   }
 
-  /* Upload Assistants file
+  /* Create thread message
    *
    */
   public async createThreadMessage(payload: any) {
@@ -184,7 +184,7 @@ export class OpenAIService {
     }
   }
 
-  /* Upload Assistants file
+  /* Create run
    *
    */
   public async createRun(payload: any) {
@@ -199,7 +199,7 @@ export class OpenAIService {
     }
   }
 
-  /* Upload Assistants file
+  /* Retrieve run
    *
    */
   public async retrieveRun(payload: any) {
@@ -214,7 +214,7 @@ export class OpenAIService {
     }
   }
 
-  /* Upload Assistants file
+  /* Cancel run
    *
    */
   public async cancelRun(payload: any) {

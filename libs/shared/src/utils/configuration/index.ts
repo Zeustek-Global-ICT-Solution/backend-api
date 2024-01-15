@@ -29,5 +29,11 @@ export const configuration = () => ({
         process.env.AZURE_COMMUNICATION_CONNECTION_STRING,
       emailDomain: process.env.AZURE_EMAIL_DOMAIN,
     },
+    pusher: {
+      appId: process.env.APP_ID,
+      apiKey: process.env.API_KEY,
+      appSecret: process.env.APP_SECRET,
+      cluster: process.env.CLUSTER,
+    },
   },
 });
