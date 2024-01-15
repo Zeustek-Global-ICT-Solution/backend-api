@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as queryString from 'query-string';
+import queryString from 'query-string';
 import Url from 'url-parse';
 
 interface PaginationOption {
