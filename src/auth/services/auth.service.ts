@@ -53,9 +53,9 @@ export class AuthService extends BaseService {
         email: user.email,
         sub: user._id,
       };
-      const { password, ...userWithoutPassword } = user;
+
       return {
-        user: userWithoutPassword._doc,
+        user: user,
         access_token: this.jwtService.sign(payload),
       };
     } catch (error) {
@@ -79,16 +79,13 @@ export class AuthService extends BaseService {
         user.password,
       );
       if (user && isMatch) {
-        return user;
+        const { password, ...userWithoutPassword } = user.toJSON();
+        return userWithoutPassword;
       }
       return null;
     } catch (error) {
       return null;
     }
-  }
-
-  profile(id: number) {
-    return `This action returns a #${id} auth`;
   }
 
   async getToken(identity: string) {

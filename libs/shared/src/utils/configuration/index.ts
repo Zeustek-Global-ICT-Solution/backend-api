@@ -6,7 +6,7 @@ export const configuration = () => ({
     encryption_key: process.env.SERVER_SECRET || 'AppSecret',
     name: process.env.APP_NAME || 'Jummai',
     jwt_secret: 'tywi876tg3nloiuygbd,lof87652ui-09873tgudud',
-    jwt_expiration: process.env.JWT_EXPIRATION || 60 * 15,
+    jwt_expiration: process.env.JWT_EXPIRATION || 60 * 60 * 24,
     baseUrl:
       process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`,
     domain: process.env.DOMAIN,

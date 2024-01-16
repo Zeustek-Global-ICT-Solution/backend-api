@@ -62,6 +62,23 @@ export class UsersController {
       next(error);
     }
   }
+  @Get('/profile')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async profile(@Req() req, @Res() res, @Next() next: NextFunction) {
+    try {
+      const user = await this.usersService.findOneById(req.user._id);
+      const { password, ...value } = user.toJSON();
+      const response = await this.usersService.getResponse({
+        code: 200,
+        value,
+        message: 'Get users profile was successful',
+      });
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)

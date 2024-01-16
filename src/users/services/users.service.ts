@@ -34,9 +34,10 @@ export class UsersService extends BaseService {
     }
   }
 
-  async findOneById(id: string): Promise<User> {
+  async findOneById(id: string): Promise<UserDocument> {
     try {
-      return await this.usersRepository.findById(id);
+      const user = await this.usersRepository.findById(id);
+      return user;
     } catch (error) {
       throw new AppException(400, error.message);
     }
