@@ -39,7 +39,7 @@ export class OpenAIService {
   public async imageGenerator(payload: any) {
     try {
       const image = await this.openClient.images.generate({
-        model: 'dall-e-3',
+        model: 'dall-e-2',
         prompt: payload.prompt,
       });
       return image;

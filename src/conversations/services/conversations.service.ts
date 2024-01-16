@@ -42,7 +42,9 @@ export class ConversationsService extends BaseService {
 
   public async imageGenerator(payload: any) {
     try {
-      return await this.openAIService.imageGenerator(payload);
+      const result = await this.openAIService.imageGenerator(payload);
+      if (!result) throw new AppException(400, 'bad image generator');
+      return result;
     } catch (error) {
       throw new AppException(400, error.message);
     }
