@@ -14,10 +14,16 @@ export class Response {
 
   @Prop({
     type: 'string',
-    enum: ['text', 'image'],
+    enum: ['text', 'image', 'voice'],
     default: 'text',
   })
   type: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'Prompt' })
+  promptId: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId, ref: 'Conversation' })
+  conversationId: Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   userId: Types.ObjectId;

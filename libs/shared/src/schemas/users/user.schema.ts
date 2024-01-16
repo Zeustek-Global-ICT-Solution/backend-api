@@ -23,6 +23,12 @@ export class User {
     type: 'string',
     required: false,
   })
+  about: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+  })
   phone: string;
 
   @Prop({

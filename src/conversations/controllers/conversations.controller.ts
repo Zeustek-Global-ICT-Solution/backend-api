@@ -13,6 +13,9 @@ import {
   UseInterceptors,
   UploadedFile,
   Get,
+  Param,
+  Delete,
+  Patch,
 } from '@nestjs/common';
 import { ConversationsService } from '../services/conversations.service';
 import { CreateConversationDto } from '../dto/create-conversation.dto';
@@ -125,6 +128,23 @@ export class ConversationsController {
   @UseGuards(JwtAuthGuard)
   async findAll(@Req() req, @Res() res, @Next() next: NextFunction) {
     try {
+      const value = await this.conversationsService.findAll();
+      const response = await this.conversationsService.getResponse({
+        code: 200,
+        value: value,
+        message: 'Find all conversations was successful',
+      });
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @Get('/users')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async findUser(@Req() req, @Res() res, @Next() next: NextFunction) {
+    try {
       const value = await this.conversationsService.findAll({
         userId: req.user._id,
       });
@@ -132,6 +152,73 @@ export class ConversationsController {
         code: 200,
         value: value,
         message: 'Find all conversations was successful',
+      });
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @Get('/:id')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async findOne(
+    @Param('id') id: string,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const value = await this.conversationsService.findOne(id);
+      const response = await this.conversationsService.getResponse({
+        code: 200,
+        value: value,
+        message: 'Find all conversations was successful',
+      });
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  async update(
+    @Param('id') id: string,
+    @Body() payload: any,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const value = await this.conversationsService.update(id, payload);
+      const response = await this.conversationsService.getResponse({
+        code: 200,
+        value: value,
+        message: 'Update user was successful',
+      });
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async remove(
+    @Param('id') id: string,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const value = await this.conversationsService.remove(id);
+      const response = await this.conversationsService.getResponse({
+        code: 200,
+        value: value,
+        message: 'Remove user was successful',
       });
       return res.status(200).json(response);
     } catch (error) {

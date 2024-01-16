@@ -99,6 +99,7 @@ export class AuthService extends BaseService {
       if (!user) {
         throw new AppException(400, 'Email or Phone number doesnt exits');
       }
+
       const isEmail = Utils.isEmail(identity);
       const token =
         this.config.get<string>('service.nodeEnv') == 'production'

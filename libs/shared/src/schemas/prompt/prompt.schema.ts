@@ -20,6 +20,9 @@ export class Prompt {
   })
   type: string;
 
+  @Prop({ type: Types.ObjectId, ref: 'Conversation' })
+  conversationId: Types.ObjectId;
+
   @Prop({ type: Types.ObjectId, ref: 'User' })
   userId: Types.ObjectId;
 }

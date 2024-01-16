@@ -15,6 +15,13 @@ export class Conversation {
 
   @Prop({
     type: 'string',
+    enum: ['text', 'image', 'voice'],
+    default: 'text',
+  })
+  type: string;
+
+  @Prop({
+    type: 'string',
     required: false,
   })
   prompts: string;
