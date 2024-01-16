@@ -91,6 +91,14 @@ export class AuthService extends BaseService {
   async getToken(identity: string) {
     try {
       const payload = {};
+
+      const user = await this.usersService.findOne({
+        $or: [{ email: identity }, { phone: identity }],
+      });
+
+      if (!user) {
+        throw new AppException(400, 'Email or Phone number doesnt exits');
+      }
       const isEmail = Utils.isEmail(identity);
       const token =
         this.config.get<string>('service.nodeEnv') == 'production'
