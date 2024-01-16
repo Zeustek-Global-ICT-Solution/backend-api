@@ -9,4 +9,8 @@ export class UsersRepository extends Repository<UserDocument> {
   constructor(@InjectModel(User.name) private entity: Model<UserDocument>) {
     super(entity);
   }
+
+  public async findWithSelectedFields(conditions: Record<string, any> = {}) {
+    return await this.entity.find(conditions).select('-password').exec();
+  }
 }

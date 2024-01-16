@@ -26,9 +26,9 @@ export class UsersService extends BaseService {
     }
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserDocument[]> {
     try {
-      return await this.usersRepository.findAll();
+      return await this.usersRepository.findWithSelectedFields();
     } catch (error) {
       throw new AppException(400, error.message);
     }
