@@ -8,7 +8,7 @@ import {
   RemovedModel,
   UpdatedModel,
 } from 'nestjs-mongoose-generic-repository';
-import { User } from '@app/shared/schemas';
+import { User, UserDocument } from '@app/shared/schemas';
 import { BaseService } from '@app/shared/base/base.service';
 import { AppException } from '@app/shared';
 
@@ -42,7 +42,7 @@ export class UsersService extends BaseService {
     }
   }
 
-  async findOne(payload: Record<string, any>): Promise<User> {
+  async findOne(payload: Record<string, any>): Promise<UserDocument> {
     try {
       const result = await this.usersRepository.find(payload);
       if (result && result.length > 0) {

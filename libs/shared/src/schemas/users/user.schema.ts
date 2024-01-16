@@ -65,7 +65,6 @@ export class User {
   @Prop({
     type: 'string',
     required: false,
-    default: false,
   })
   whatsAppAccessToken: string;
 }

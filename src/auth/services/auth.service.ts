@@ -34,7 +34,6 @@ export class AuthService extends BaseService {
       }
       const payload = { password: createAuthDto.password };
       const isEmail = Utils.isEmail(createAuthDto.id);
-      console.log(isEmail);
       if (isEmail) {
         Object.assign(payload, { email: createAuthDto.id });
       } else {
@@ -100,8 +99,11 @@ export class AuthService extends BaseService {
         this.config.get<string>('service.nodeEnv') == 'production'
           ? Utils.generateToke()
           : 123456;
-      const saved = await this.cacheManager.set(identity, token, 60000);
-      console.log(saved);
+      const saved = await this.cacheManager.set(
+        identity,
+        token,
+        60 * 60 * 1000,
+      );
 
       if (isEmail) {
         Object.assign(payload, { address: identity });
@@ -121,13 +123,35 @@ export class AuthService extends BaseService {
 
   async resetPassword(payload: any) {
     try {
+      const result = await this.cacheManager.get(payload.identity);
+      if (result != payload.code) {
+        throw new AppException(400, 'Invalid verification code');
+      }
+      const user = await this.usersService.findOne({
+        $or: [{ email: payload.identity }, { phone: payload.identity }],
+      });
+      if (!user) {
+        throw new AppException(400, 'User not found');
+      }
+
+      const hashedPassword = await Utils.hashPassword(payload.password);
+      const response = await this.usersService.update(user._id, {
+        password: hashedPassword,
+      });
+      return response;
     } catch (error) {
+      console.log(error);
+
       throw new AppException(400, error);
     }
   }
 
   async verify(payload: any) {
+    let isVerified = false;
     const result = await this.cacheManager.get(payload.identity);
-    return `This action removes a #${result} auth`;
+    if (result == payload.code) {
+      isVerified = true;
+    }
+    return { isVerified };
   }
 }

@@ -58,8 +58,8 @@ export class AuthController {
     @Next() next: NextFunction,
   ) {
     try {
+      console.log(req.user);
       const value = await this.authService.login(req.user);
-      console.log(value);
 
       const response = await this.authService.getResponse({
         code: 200,
@@ -121,15 +121,17 @@ export class AuthController {
     }
   }
 
-  @Patch('/reset-password')
+  @Patch('/:identity/reset-password')
   @HttpCode(HttpStatus.OK)
   async update(
+    @Param('identity') identity: string,
     @Body() payload: any,
     @Req() req,
     @Res() res,
     @Next() next: NextFunction,
   ) {
     try {
+      Object.assign(payload, { identity });
       const value = await this.authService.resetPassword(payload);
       const response = await this.authService.getResponse({
         code: 200,
