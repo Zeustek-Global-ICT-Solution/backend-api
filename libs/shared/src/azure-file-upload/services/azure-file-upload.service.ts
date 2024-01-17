@@ -25,7 +25,10 @@ export class AzureFileUploadService {
       const fileUrl = blockBlobClient.url;
       await blockBlobClient.uploadData(file.buffer);
 
-      return fileUrl;
+      return {
+        fileUrl,
+        fileName: file_name,
+      };
     } catch (error) {
       throw new AppException(400, error.message);
     }
@@ -38,5 +41,12 @@ export class AzureFileUploadService {
     const blockBlobClient = containerClient.getBlockBlobClient(imageName);
 
     return blockBlobClient;
+  }
+
+  public async getFile(fileName: string) {
+    this.containerName = this.config.get<string>('service.azure.containerName');
+    const blobClient = this.getBlobClient(fileName);
+    const blobDownloaded = (await blobClient).download();
+    return (await blobDownloaded).readableStreamBody;
   }
 }

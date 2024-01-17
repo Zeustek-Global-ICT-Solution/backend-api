@@ -8,6 +8,9 @@ import {
   Res,
   HttpCode,
   HttpStatus,
+  Get,
+  Query,
+  Header,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesUploadService } from '../services/files-upload.service';
@@ -27,9 +30,32 @@ export class FilesUploadController {
     @Next() next: NextFunction,
   ) {
     try {
-      console.log(file);
-      const upload = await this.filesUploadService.uploadFile(file);
-      return res.status(201).json(upload);
+      const url = await this.filesUploadService.uploadFile(file);
+      const response = await this.filesUploadService.getResponse({
+        code: 201,
+        value: {
+          url,
+        },
+        message: 'File upload was successful',
+      });
+      return res.status(201).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @Get('/read-image')
+  @HttpCode(HttpStatus.OK)
+  @Header('Content-Type', 'image/jpeg')
+  async readImage(
+    @Query('fileName') fileName: string,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const file = await this.filesUploadService.getFile(fileName);
+      return file.pipe(res);
     } catch (error) {
       next(error);
     }

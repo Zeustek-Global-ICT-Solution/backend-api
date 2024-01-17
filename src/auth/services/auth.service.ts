@@ -122,7 +122,10 @@ export class AuthService extends BaseService {
         });
       } else {
         Object.assign(payload, { phone: identity });
-        return await this.communicationService.sendSMS({});
+        return await this.communicationService.sendNBSSMS({
+          phones: [payload],
+          message: `Jummai verification code: ${token}`,
+        });
       }
     } catch (error) {
       throw new AppException(400, error);
