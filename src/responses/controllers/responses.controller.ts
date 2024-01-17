@@ -1,25 +1,25 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Next,
+  Param,
+  Patch,
+  Post,
   Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { AssistantsService } from '../services/ssistants.service';
+import { ResponsesService } from '../services/responses.service';
 import { NextFunction } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@Controller('assistants')
-export class AssistantsController {
-  constructor(private readonly service: AssistantsService) {}
+@Controller('responses')
+export class ResponsesController {
+  constructor(private readonly service: ResponsesService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -35,7 +35,7 @@ export class AssistantsController {
       const response = await this.service.getResponse({
         code: 201,
         value: value,
-        message: 'Create assistant was successful',
+        message: 'Create response was successful',
       });
       return res.status(201).json(response);
     } catch (error) {
@@ -52,7 +52,7 @@ export class AssistantsController {
       const response = await this.service.getResponse({
         code: 200,
         value: value,
-        message: 'Find all assistants was successful',
+        message: 'Find all responses was successful',
       });
       return res.status(200).json(response);
     } catch (error) {
@@ -74,7 +74,7 @@ export class AssistantsController {
       const response = await this.service.getResponse({
         code: 200,
         value: value,
-        message: 'Find assistant was successful',
+        message: 'Find response was successful',
       });
       return res.status(200).json(response);
     } catch (error) {
@@ -97,7 +97,7 @@ export class AssistantsController {
       const response = await this.service.getResponse({
         code: 200,
         value: value,
-        message: 'Update assistant was successful',
+        message: 'Update response was successful',
       });
       return res.status(200).json(response);
     } catch (error) {
@@ -119,7 +119,7 @@ export class AssistantsController {
       const response = await this.service.getResponse({
         code: 200,
         value: value,
-        message: 'Remove assistant was successful',
+        message: 'Remove response was successful',
       });
       return res.status(200).json(response);
     } catch (error) {

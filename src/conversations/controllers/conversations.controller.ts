@@ -1,5 +1,5 @@
-import { JwtAuthGuard } from './../../auth/guards/jwt-auth.guard';
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { JwtAuthGuard } from './../../auth/guards/jwt-auth.guard';
 import {
   Controller,
   Post,
@@ -196,7 +196,7 @@ export class ConversationsController {
       const response = await this.conversationsService.getResponse({
         code: 200,
         value: value,
-        message: 'Update user was successful',
+        message: 'Update conversation was successful',
       });
       return res.status(200).json(response);
     } catch (error) {
@@ -218,7 +218,7 @@ export class ConversationsController {
       const response = await this.conversationsService.getResponse({
         code: 200,
         value: value,
-        message: 'Remove user was successful',
+        message: 'Remove conversation was successful',
       });
       return res.status(200).json(response);
     } catch (error) {

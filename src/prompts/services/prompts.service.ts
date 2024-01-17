@@ -1,40 +1,37 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
-import { UsersRepository } from '../repository/user.repository';
+import { PromptsRepository } from '../repository/prompt.repository';
+import { BaseService } from '@app/shared/base/base.service';
 import {
   CreatedModel,
   RemovedModel,
   UpdatedModel,
 } from 'nestjs-mongoose-generic-repository';
-import { User, UserDocument } from '@app/shared/schemas';
-import { BaseService } from '@app/shared/base/base.service';
 import { AppException } from '@app/shared';
+import { PromptDocument } from '@app/shared/schemas';
 
 @Injectable()
-export class UsersService extends BaseService {
-  constructor(private readonly repository: UsersRepository) {
+export class PromptsService extends BaseService {
+  constructor(private readonly repository: PromptsRepository) {
     super();
   }
 
-  async create(createUserDto: CreateUserDto): Promise<CreatedModel> {
+  async create(payload: any): Promise<CreatedModel> {
     try {
-      return await this.repository.create(createUserDto);
+      return await this.repository.create(payload);
     } catch (error) {
       throw new AppException(400, error.message);
     }
   }
 
-  async findAll(): Promise<UserDocument[]> {
+  async findAll(payload: Record<string, any> = {}): Promise<PromptDocument[]> {
     try {
-      return await this.repository.findWithSelectedFields();
+      return await this.repository.find(payload);
     } catch (error) {
       throw new AppException(400, error.message);
     }
   }
 
-  async findOneById(id: string): Promise<UserDocument> {
+  async findOneById(id: string): Promise<PromptDocument> {
     try {
       const user = await this.repository.findById(id);
       return user;
@@ -43,7 +40,7 @@ export class UsersService extends BaseService {
     }
   }
 
-  async findOne(payload: Record<string, any>): Promise<UserDocument> {
+  async findOne(payload: Record<string, any>): Promise<PromptDocument> {
     try {
       const result = await this.repository.find(payload);
       if (result && result.length > 0) {
@@ -54,12 +51,9 @@ export class UsersService extends BaseService {
     }
   }
 
-  async update(
-    id: string,
-    updateUserDto: UpdateUserDto,
-  ): Promise<UpdatedModel> {
+  async update(id: string, payload: any): Promise<UpdatedModel> {
     try {
-      return await this.repository.updateOne({ _id: id }, updateUserDto);
+      return await this.repository.updateOne({ _id: id }, payload);
     } catch (error) {
       throw new AppException(400, error.message);
     }

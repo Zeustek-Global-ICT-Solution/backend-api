@@ -12,6 +12,9 @@ import { CoreModule } from '@app/shared/core/core.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { HttpModule } from '@nestjs/axios';
 import { FilesUploadModule } from './files-upload/files-upload.module';
+import { ResponsesModule } from './responses/responses.module';
+import { PromptsModule } from './prompts/prompts.module';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [
@@ -29,6 +32,9 @@ import { FilesUploadModule } from './files-upload/files-upload.module';
     DatabaseModule,
     CoreModule,
     FilesUploadModule,
+    ResponsesModule,
+    PromptsModule,
+    MessagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

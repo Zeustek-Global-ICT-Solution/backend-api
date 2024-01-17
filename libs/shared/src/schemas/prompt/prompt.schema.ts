@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type propmtDocument = Prompt & Document;
+export type PromptDocument = Prompt & Document;
 
 @Schema({ collection: 'prompts', timestamps: true })
 export class Prompt {

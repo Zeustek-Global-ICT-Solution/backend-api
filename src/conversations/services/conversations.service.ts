@@ -11,7 +11,7 @@ import { ConversationsRepository } from '../repositories/converstion.repository'
 export class ConversationsService extends BaseService {
   constructor(
     private readonly openAIService: OpenAIService,
-    private readonly conversationsRepository: ConversationsRepository,
+    private readonly repository: ConversationsRepository,
   ) {
     super();
   }
@@ -26,7 +26,7 @@ export class ConversationsService extends BaseService {
 
   public async findAll(payload: any = {}) {
     try {
-      return await this.conversationsRepository.find(payload);
+      return await this.repository.find(payload);
     } catch (error) {
       throw new AppException(400, error.message);
     }
@@ -34,7 +34,7 @@ export class ConversationsService extends BaseService {
 
   public async findOne(id: string, payload: any = {}) {
     try {
-      return await this.conversationsRepository.findById(id);
+      return await this.repository.findById(id);
     } catch (error) {
       throw new AppException(400, error.message);
     }
@@ -42,7 +42,7 @@ export class ConversationsService extends BaseService {
 
   public async update(id: string, payload: any) {
     try {
-      return await this.conversationsRepository.updateOne({ _id: id }, payload);
+      return await this.repository.updateOne({ _id: id }, payload);
     } catch (error) {
       throw new AppException(400, error.message);
     }
@@ -50,7 +50,7 @@ export class ConversationsService extends BaseService {
 
   public async remove(id: string) {
     try {
-      return await this.conversationsRepository.remove({ _id: id });
+      return await this.repository.remove({ _id: id });
     } catch (error) {
       throw new AppException(400, error.message);
     }

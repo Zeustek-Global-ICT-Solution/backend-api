@@ -3,10 +3,10 @@ import { Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type AssistantChatDocument = AssistantChat & Document;
+export type AssistantDocument = Assistant & Document;
 
 @Schema({ collection: 'assistantChats', timestamps: true })
-export class AssistantChat {
+export class Assistant {
   @Prop({
     type: 'string',
     required: false,
@@ -23,4 +23,4 @@ export class AssistantChat {
   userId: Types.ObjectId;
 }
 
-export const AssistantChatSchema = SchemaFactory.createForClass(AssistantChat);
+export const AssistantChatSchema = SchemaFactory.createForClass(Assistant);
