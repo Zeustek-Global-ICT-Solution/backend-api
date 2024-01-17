@@ -49,14 +49,16 @@ export class AuthService extends BaseService {
   async login(user: any) {
     try {
       const payload = {
-        phone: user.phone,
-        email: user.email,
+        username: user.email || user.phone,
         sub: user._id,
       };
 
       return {
         user: user,
-        access_token: this.jwtService.sign(payload),
+        access_token: await this.jwtService.signAsync(payload, {
+          secret: this.config.get<string>('app.jwt_secret'),
+          expiresIn: '1d',
+        }),
       };
     } catch (error) {
       throw new AppException(404, error.message);

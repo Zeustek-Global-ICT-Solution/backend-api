@@ -39,6 +39,24 @@ export class User {
 
   @Prop({
     type: 'string',
+    required: false,
+  })
+  businessName: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+  })
+  businessType: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+  })
+  address: string;
+
+  @Prop({
+    type: 'string',
     required: true,
   })
   password: string;

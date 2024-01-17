@@ -14,7 +14,19 @@ export class Response {
 
   @Prop({
     type: 'string',
-    enum: ['text', 'image', 'voice'],
+    required: false,
+  })
+  image: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+  })
+  audio: string;
+
+  @Prop({
+    type: 'string',
+    enum: ['text', 'image', 'audio'],
     default: 'text',
   })
   type: string;

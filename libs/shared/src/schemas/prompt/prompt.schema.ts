@@ -15,10 +15,16 @@ export class Prompt {
 
   @Prop({
     type: 'string',
-    enum: ['text', 'image'],
+    enum: ['text', 'image', 'audio'],
     default: 'text',
   })
   type: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+  })
+  audio: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Conversation' })
   conversationId: Types.ObjectId;
