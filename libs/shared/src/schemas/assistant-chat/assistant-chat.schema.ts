@@ -23,4 +23,4 @@ export class Assistant {
   userId: Types.ObjectId;
 }
 
-export const AssistantChatSchema = SchemaFactory.createForClass(Assistant);
+export const AssistantSchema = SchemaFactory.createForClass(Assistant);
