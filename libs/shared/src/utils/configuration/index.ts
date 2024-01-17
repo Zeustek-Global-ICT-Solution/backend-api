@@ -30,6 +30,9 @@ export const configuration = () => ({
         process.env.AZURE_COMMUNICATION_CONNECTION_STRING,
       emailDomain: process.env.AZURE_EMAIL_DOMAIN,
     },
+    openAI: {
+      apiKey: process.env.OPENAI_API_KEY,
+    },
     nbsms: {
       username: process.env.NBSMS_USERNAME,
       password: process.env.NBSMS_PASSWORD,

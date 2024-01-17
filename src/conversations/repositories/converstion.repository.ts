@@ -11,4 +11,41 @@ export class ConversationsRepository extends Repository<ConversationDocument> {
   ) {
     super(entity);
   }
+
+  async findAllAndPopulate(payload) {
+    return await this.entity
+      .find(payload)
+      .populate('user', '-password')
+      .populate({
+        path: 'prompts',
+        populate: [
+          {
+            path: 'user',
+            select: '-password',
+          },
+          {
+            path: 'response',
+          },
+        ],
+      })
+      .exec();
+  }
+  async findOneAndPopulate(payload) {
+    return await this.entity
+      .findById(payload)
+      .populate('user', '-password')
+      .populate({
+        path: 'prompts',
+        populate: [
+          {
+            path: 'user',
+            select: '-password',
+          },
+          {
+            path: 'response',
+          },
+        ],
+      })
+      .exec();
+  }
 }

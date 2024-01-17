@@ -13,5 +13,6 @@ import { ReponsesRepository } from './repository/response.repository';
   ],
   controllers: [ResponsesController],
   providers: [ResponsesService, ReponsesRepository],
+  exports: [ResponsesService, ReponsesRepository],
 })
 export class ResponsesModule {}

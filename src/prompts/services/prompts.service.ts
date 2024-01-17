@@ -33,8 +33,14 @@ export class PromptsService extends BaseService {
 
   async findOneById(id: string): Promise<PromptDocument> {
     try {
-      const user = await this.repository.findById(id);
-      return user;
+      return (await this.repository.findById(id)).populate('response');
+    } catch (error) {
+      throw new AppException(400, error.message);
+    }
+  }
+  async findOneByIdAndPopulate(id: string): Promise<PromptDocument> {
+    try {
+      return await this.repository.findOneByIdAndPopulate(id);
     } catch (error) {
       throw new AppException(400, error.message);
     }

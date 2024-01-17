@@ -34,13 +34,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       });
     }
 
-    console.log(credential);
     const user = await this.userService.findOne(credential);
-
+    console.log(credential, user);
     if (!user) {
       throw new UnauthorizedException();
     }
 
-    return user;
+    return user.toJSON();
   }
 }

@@ -37,10 +37,12 @@ export class ConversationsController {
     @Next() next: NextFunction,
   ) {
     try {
-      if (res.user) {
-        Object.assign(payload, { user: res.user._id });
+      if (req.user) {
+        Object.assign(payload, { user: req.user._id });
       }
+
       const value = await this.conversationsService.create(payload);
+
       const response = await this.conversationsService.getResponse({
         code: 201,
         value: value,
@@ -62,7 +64,11 @@ export class ConversationsController {
     @Next() next: NextFunction,
   ) {
     try {
+      if (req.user) {
+        Object.assign(payload, { user: req.user._id });
+      }
       const value = await this.conversationsService.completions(payload);
+      console.log(value, 'hhehehehe');
       const response = await this.conversationsService.getResponse({
         code: 201,
         value: value,

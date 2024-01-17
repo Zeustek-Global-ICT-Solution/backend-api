@@ -11,5 +11,6 @@ import { PromptsRepository } from './repository/prompt.repository';
   ],
   controllers: [PromptsController],
   providers: [PromptsService, PromptsRepository],
+  exports: [PromptsService, PromptsRepository],
 })
 export class PromptsModule {}

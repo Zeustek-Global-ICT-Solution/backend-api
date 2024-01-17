@@ -7,7 +7,9 @@ export const OpenAIProviders = [
   {
     provide: OPENAI_TOKEN,
     useFactory: async (config: ConfigService) => {
-      const openai = new OpenAI();
+      const openai = new OpenAI({
+        apiKey: config.get<string>('service.openAI.apiKey'),
+      });
       return openai;
     },
     inject: [ConfigService],

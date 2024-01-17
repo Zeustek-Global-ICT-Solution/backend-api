@@ -19,6 +19,8 @@ import { CreateAuthDto } from '../dto/create-auth.dto';
 import { UpdateAuthDto } from '../dto/update-auth.dto';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { NextFunction } from 'express';
+import { RegisterAuthDto } from '../dto/register-auth.dto';
+import { LoginAuthDto } from '../dto/login-auth.dto';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -30,13 +32,13 @@ export class AuthController {
   @Post('/register')
   @HttpCode(HttpStatus.CREATED)
   async register(
-    @Body() createAuthDto: CreateAuthDto,
+    @Body() payload: RegisterAuthDto,
     @Req() req,
     @Res() res,
     @Next() next: NextFunction,
   ) {
     try {
-      const value = await this.authService.register(createAuthDto);
+      const value = await this.authService.register(payload);
       const response = await this.authService.getResponse({
         code: 201,
         value: value,
@@ -52,13 +54,12 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @HttpCode(HttpStatus.OK)
   async login(
-    @Body() createAuthDto: CreateAuthDto,
+    @Body() payload: LoginAuthDto,
     @Req() req,
     @Res() res,
     @Next() next: NextFunction,
   ) {
     try {
-      console.log(req.user);
       const value = await this.authService.login(req.user);
 
       const response = await this.authService.getResponse({

@@ -87,6 +87,13 @@ export class User {
   isWhatsAppEnabled: boolean;
 
   @Prop({
+    type: 'boolean',
+    required: false,
+    default: true,
+  })
+  isFirstLogin: boolean;
+
+  @Prop({
     type: 'string',
     required: false,
   })
@@ -97,10 +104,8 @@ export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.pre('save', function (next) {
   const user = this;
-
   // only hash the password if it has been modified (or is new)
   if (!user.isModified('password')) return next();
-
   // generate a salt
   bcrypt.genSalt(10, function (err, salt) {
     if (err) return next(err);
