@@ -10,10 +10,21 @@ export class PromptsRepository extends Repository<PromptDocument> {
     super(entity);
   }
 
+  // TODO: find one and populate
   async findOneByIdAndPopulate(id: string) {
     return await this.entity
       .findById(id)
       .populate('user', '-password')
+      .populate('response')
+      .exec();
+  }
+
+  // TODO: Find all prompts and populate
+  async findAndPopulated(payload: Record<string, any>) {
+    return await this.entity
+      .find(payload)
+      .populate('user', '-password')
+      .populate('conversation')
       .populate('response')
       .exec();
   }

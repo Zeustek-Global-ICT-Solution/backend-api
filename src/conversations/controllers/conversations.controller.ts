@@ -152,7 +152,7 @@ export class ConversationsController {
   async findUser(@Req() req, @Res() res, @Next() next: NextFunction) {
     try {
       const value = await this.conversationsService.findAll({
-        userId: req.user._id,
+        user: req.user._id,
       });
       const response = await this.conversationsService.getResponse({
         code: 200,
@@ -176,6 +176,28 @@ export class ConversationsController {
   ) {
     try {
       const value = await this.conversationsService.findOne(id);
+      const response = await this.conversationsService.getResponse({
+        code: 200,
+        value: value,
+        message: 'Find all conversations was successful',
+      });
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @Get('/:id/prompts')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async findConversationsPrompts(
+    @Param('id') id: string,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const value = await this.conversationsService.findConversationPrompts(id);
       const response = await this.conversationsService.getResponse({
         code: 200,
         value: value,

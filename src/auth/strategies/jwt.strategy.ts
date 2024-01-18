@@ -35,7 +35,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     const user = await this.userService.findOne(credential);
-    console.log(credential, user);
+
     if (!user) {
       throw new UnauthorizedException();
     }

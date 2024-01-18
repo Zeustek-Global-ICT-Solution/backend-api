@@ -7,6 +7,7 @@ import { BaseService } from '@app/shared/base/base.service';
 import { ConversationsRepository } from '../repositories/converstion.repository';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PromptsService } from 'src/prompts/services/prompts.service';
+import { CreatePromptEvent } from '@app/shared/schemas/conversation/create-prompt.event';
 
 @Injectable()
 export class ConversationsService extends BaseService {
@@ -15,6 +16,7 @@ export class ConversationsService extends BaseService {
     private readonly promptsService: PromptsService,
     private readonly responsesService: ResponsesService,
     private readonly repository: ConversationsRepository,
+    private readonly eventEmitter: EventEmitter2,
   ) {
     super();
   }
@@ -43,6 +45,14 @@ export class ConversationsService extends BaseService {
     }
   }
 
+  public async findConversationPrompts(id: string, payload: any = {}) {
+    try {
+      return await this.promptsService.findAll({ conversation: id });
+    } catch (error) {
+      throw new AppException(400, error.message);
+    }
+  }
+
   public async update(id: string, payload: any) {
     try {
       return await this.repository.updateOne({ _id: id }, payload);
@@ -61,9 +71,13 @@ export class ConversationsService extends BaseService {
 
   public async completions(payload: any) {
     try {
-      // Call openAi api
+      // TODO: get conversation with given id
+      const conversation = await this.repository.findById(payload.conversation);
+      if (!conversation) {
+        throw new AppException(400, 'Resource not found');
+      }
+      // TODO: Call openai api
       const result = await this.openAIService.chatCompletion(payload);
-
       //create prompt
       const prompt = await this.promptsService.create({
         conversation: payload.conversation,
@@ -71,8 +85,9 @@ export class ConversationsService extends BaseService {
         type: payload.type,
         user: payload.user,
       });
-      // If successful create response
-      const response = await this.responsesService.create({
+
+      // TODO: Create response of the result from openai
+      await this.responsesService.create({
         conversation: payload.conversation,
         user: payload.user,
         content: result.choices[0].message.content,
@@ -80,6 +95,13 @@ export class ConversationsService extends BaseService {
         type: payload.type,
       });
 
+      // TODO: Update the conversation title if default to 'New conversation'
+      if (conversation.title === 'New Conversation') {
+        conversation.title = payload.content;
+        await conversation.save();
+      }
+
+      // TODO: Get and return the update prompt
       return await this.promptsService.findOneByIdAndPopulate(prompt.id);
     } catch (error) {
       throw new AppException(400, error.message);

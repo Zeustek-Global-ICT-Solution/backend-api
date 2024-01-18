@@ -8,6 +8,8 @@ import {
 } from 'nestjs-mongoose-generic-repository';
 import { AppException } from '@app/shared';
 import { PromptDocument } from '@app/shared/schemas';
+import { OnEvent } from '@nestjs/event-emitter';
+import { CreatePromptEvent } from '@app/shared/schemas/conversation/create-prompt.event';
 
 @Injectable()
 export class PromptsService extends BaseService {
@@ -25,7 +27,7 @@ export class PromptsService extends BaseService {
 
   async findAll(payload: Record<string, any> = {}): Promise<PromptDocument[]> {
     try {
-      return await this.repository.find(payload);
+      return await this.repository.findAndPopulated(payload);
     } catch (error) {
       throw new AppException(400, error.message);
     }
@@ -71,5 +73,11 @@ export class PromptsService extends BaseService {
     } catch (error) {
       throw new AppException(400, error.message);
     }
+  }
+
+  @OnEvent('prompt.created', { async: true, promisify: true })
+  handlePromptCreatedEvent(event: CreatePromptEvent) {
+    // handle and process "OrderCreatedEvent" event
+    console.log(event);
   }
 }

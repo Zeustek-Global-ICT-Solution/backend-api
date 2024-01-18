@@ -5,7 +5,11 @@ import { Document } from 'mongoose';
 
 export type AssistantDocument = Assistant & Document;
 
-@Schema({ collection: 'assistants', timestamps: true })
+@Schema({
+  collection: 'assistants',
+  timestamps: true,
+  toJSON: { virtuals: true },
+})
 export class Assistant {
   @Prop({
     type: 'string',

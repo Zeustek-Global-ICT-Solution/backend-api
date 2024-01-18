@@ -6,7 +6,11 @@ import { User } from '../users';
 
 export type ResponseDocument = Response & Document;
 
-@Schema({ collection: 'responses', timestamps: true })
+@Schema({
+  collection: 'responses',
+  timestamps: true,
+  toJSON: { virtuals: true },
+})
 export class Response {
   @Prop({
     type: 'string',
