@@ -42,7 +42,7 @@ export class OpenAIService {
       payload.size = payload.size || '512x512';
       const images = await this.openClient.images.generate({
         model: 'dall-e-2',
-        prompt: payload.prompt,
+        prompt: payload.content,
         n: payload.variation,
         size: payload.size,
       });

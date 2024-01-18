@@ -83,7 +83,7 @@ export class ConversationsService extends BaseService {
       // TODO: Call openai api
       const result = await this.openAIService.chatCompletion(payload);
 
-      //create prompt
+      // TODO: Create prompt
       const prompt = await this.promptsService.create({
         conversation: payload.conversation,
         content: payload.content,
@@ -115,9 +115,38 @@ export class ConversationsService extends BaseService {
 
   public async imageGenerator(payload: any) {
     try {
+      // TODO: get conversation with given id
+      const conversation = await this.repository.findById(payload.conversation);
+      if (!conversation) {
+        throw new AppException(400, 'Resource not found');
+      }
+
       const result = await this.openAIService.imageGenerator(payload);
-      if (!result) throw new AppException(400, 'bad image generator');
-      return result;
+
+      // TODO: Create prompt
+      const prompt = await this.promptsService.create({
+        conversation: payload.conversation,
+        content: payload.content,
+        type: payload.type,
+        user: payload.user,
+      });
+
+      // TODO: Create response of the result from openai
+      await this.responsesService.create({
+        conversation: payload.conversation,
+        user: payload.user,
+        images: result,
+        prompt: prompt.id,
+        type: payload.type,
+      });
+
+      // TODO: Update the conversation title if default to 'New conversation'
+      if (conversation.title === 'New Conversation') {
+        conversation.title = payload.content;
+        await conversation.save();
+      }
+
+      return await this.promptsService.findOneByIdAndPopulate(prompt.id);
     } catch (error) {
       throw new AppException(400, error.message);
     }
