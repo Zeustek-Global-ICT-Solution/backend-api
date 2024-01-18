@@ -76,8 +76,13 @@ export class ConversationsService extends BaseService {
       if (!conversation) {
         throw new AppException(400, 'Resource not found');
       }
+
+      // TODO: Refine the hausa language our custom model
+      // payload.content = await this.customMModelService.refine(payload.content)
+
       // TODO: Call openai api
       const result = await this.openAIService.chatCompletion(payload);
+
       //create prompt
       const prompt = await this.promptsService.create({
         conversation: payload.conversation,

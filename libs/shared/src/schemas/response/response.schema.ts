@@ -1,7 +1,7 @@
-import { Conversation, Prompt } from '@app/shared/schemas';
 /* eslint-disable @typescript-eslint/no-this-alias */
+import { Conversation, Prompt } from '@app/shared/schemas';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Document, Schema as MongooseSchema, Types } from 'mongoose';
 import { User } from '../users';
 
 export type ResponseDocument = Response & Document;
@@ -19,10 +19,10 @@ export class Response {
   content: string;
 
   @Prop({
-    type: 'string',
+    type: ['string'],
     required: false,
   })
-  image: string;
+  images: Types.Array<string>;
 
   @Prop({
     type: 'string',

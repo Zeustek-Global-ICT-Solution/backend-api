@@ -38,10 +38,12 @@ export class AuthController {
     @Next() next: NextFunction,
   ) {
     try {
-      const value = await this.authService.register(payload);
+      const user = await this.authService.register(payload);
+      const value = await this.authService.login(user);
       const response = await this.authService.getResponse({
         code: 201,
-        value: value,
+        token: value.access_token,
+        value: value.user,
         message: 'Registration was successful',
       });
       return res.status(201).json(response);

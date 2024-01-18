@@ -38,11 +38,15 @@ export class OpenAIService {
    */
   public async imageGenerator(payload: any) {
     try {
-      const image = await this.openClient.images.generate({
+      payload.variation = payload.variation || 4;
+      payload.size = payload.size || '512x512';
+      const images = await this.openClient.images.generate({
         model: 'dall-e-2',
         prompt: payload.prompt,
+        n: payload.variation,
+        size: payload.size,
       });
-      return image;
+      return images;
     } catch (error) {
       console.error(error.message);
     }

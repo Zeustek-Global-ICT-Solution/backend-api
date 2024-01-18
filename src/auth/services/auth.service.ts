@@ -39,8 +39,9 @@ export class AuthService extends BaseService {
       } else {
         Object.assign(payload, { phone: createAuthDto.id });
       }
+      const createdUser = await this.usersService.create(payload);
 
-      return await this.usersService.create(payload);
+      return await this.usersService.findOneById(createdUser.id);
     } catch (error) {
       throw new AppException(400, error.message);
     }
