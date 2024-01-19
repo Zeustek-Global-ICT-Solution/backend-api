@@ -102,6 +102,29 @@ export class ConversationsController {
     }
   }
 
+  @Post('/image-generator-variance')
+  @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard)
+  async imageGeneratorVariance(
+    @Body() payload: any,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const value =
+        await this.conversationsService.imageGeneratorVariance(payload);
+      const response = await this.conversationsService.getResponse({
+        code: 201,
+        value: value,
+        message: 'Image variance generator was successful',
+      });
+      return res.status(201).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   @Post('/speech-text')
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtAuthGuard)

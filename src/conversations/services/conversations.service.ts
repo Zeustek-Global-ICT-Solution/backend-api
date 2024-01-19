@@ -83,6 +83,13 @@ export class ConversationsService extends BaseService {
       // TODO: Call openai api
       const result = await this.openAIService.chatCompletion(payload);
 
+      if (!payload.conversation) {
+        const newConversation = await this.repository.create({
+          title: payload.content,
+        });
+        payload.conversation = newConversation.id;
+      }
+
       // TODO: Create prompt
       const prompt = await this.promptsService.create({
         conversation: payload.conversation,
@@ -113,6 +120,7 @@ export class ConversationsService extends BaseService {
     }
   }
 
+  // Generate 4 images of different variation
   public async imageGenerator(payload: any) {
     try {
       // TODO: get conversation with given id
@@ -146,6 +154,32 @@ export class ConversationsService extends BaseService {
         await conversation.save();
       }
 
+      return await this.promptsService.findOneByIdAndPopulate(prompt.id);
+    } catch (error) {
+      throw new AppException(400, error.message);
+    }
+  }
+
+  // Generate image variance
+  public async imageGeneratorVariance(payload: any) {
+    try {
+      const result = await this.openAIService.imageGeneratorVariace(payload);
+      // TODO: Create prompt
+      const prompt = await this.promptsService.create({
+        conversation: payload.conversation,
+        content: payload.content,
+        image: payload.image,
+        type: payload.type,
+        user: payload.user,
+      });
+      // TODO: Create response of the result from openai
+      await this.responsesService.create({
+        conversation: payload.conversation,
+        user: payload.user,
+        images: result,
+        prompt: prompt.id,
+        type: payload.type,
+      });
       return await this.promptsService.findOneByIdAndPopulate(prompt.id);
     } catch (error) {
       throw new AppException(400, error.message);

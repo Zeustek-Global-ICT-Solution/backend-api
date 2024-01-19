@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { OPENAI_TOKEN } from '@app/shared/constant';
 import OpenAI from 'openai';
-import fs from 'fs';
+import * as fs from 'fs';
 
 @Injectable()
 export class OpenAIService {
@@ -47,6 +47,25 @@ export class OpenAIService {
         size: payload.size,
       });
       return images;
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  /* Image Generator
+   *
+   */
+  public async imageGeneratorVariace(payload: any) {
+    try {
+      console.log(payload);
+
+      const image = await this.openClient.images.createVariation({
+        model: 'dall-e-2',
+        image: fs.createReadStream(payload.image),
+        n: 1,
+        size: '1024x1024',
+      });
+
+      return image;
     } catch (error) {
       console.error(error.message);
     }
