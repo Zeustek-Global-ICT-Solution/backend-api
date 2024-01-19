@@ -71,12 +71,6 @@ export class ConversationsService extends BaseService {
 
   public async completions(payload: any) {
     try {
-      // TODO: get conversation with given id
-      const conversation = await this.repository.findById(payload.conversation);
-      if (!conversation) {
-        throw new AppException(400, 'Resource not found');
-      }
-
       // TODO: Refine the hausa language our custom model
       // payload.content = await this.customMModelService.refine(payload.content)
 
@@ -108,6 +102,8 @@ export class ConversationsService extends BaseService {
       });
 
       // TODO: Update the conversation title if default to 'New conversation'
+      const conversation = await this.repository.findById(payload.conversation);
+
       if (conversation.title === 'New Conversation') {
         conversation.title = payload.content;
         await conversation.save();
