@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-import { Conversation, Prompt } from '@app/shared/schemas';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema, Types } from 'mongoose';
-import { User } from '../users';
 
 export type ResponseDocument = Response & Document;
 
@@ -38,13 +36,13 @@ export class Response {
   type: string;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Prompt' })
-  prompt: Prompt;
+  prompt: Types.ObjectId;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Conversation' })
-  conversation: Conversation;
+  conversation: Types.ObjectId;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
-  user: User;
+  user: Types.ObjectId;
 }
 
 export const ResponseSchema = SchemaFactory.createForClass(Response);

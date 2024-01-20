@@ -16,6 +16,7 @@ import {
   Param,
   Delete,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { ConversationsService } from '../services/conversations.service';
 import { CreateConversationDto } from '../dto/create-conversation.dto';
@@ -172,11 +173,22 @@ export class ConversationsController {
   @Get('/users')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
-  async findUser(@Req() req, @Res() res, @Next() next: NextFunction) {
+  async findUser(
+    @Query('type') type: string,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
     try {
-      const value = await this.conversationsService.findAll({
-        user: req.user._id,
-      });
+      const queries = {};
+      if (type) {
+        Object.assign(queries, { type });
+      }
+
+      if (req.user._id) {
+        Object.assign(queries, { user: req.user._id });
+      }
+      const value = await this.conversationsService.findAll(queries);
       const response = await this.conversationsService.getResponse({
         code: 200,
         value: value,

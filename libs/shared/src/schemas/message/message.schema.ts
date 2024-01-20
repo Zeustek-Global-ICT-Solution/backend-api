@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Types, Schema as MongooseSchema } from 'mongoose';
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
@@ -20,7 +20,7 @@ export class Message {
   })
   type: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'User' })
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
   userId: Types.ObjectId;
 }
 

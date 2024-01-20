@@ -15,7 +15,22 @@ export class ConversationsRepository extends Repository<ConversationDocument> {
   async findAllAndPopulate(payload) {
     console.log(payload);
 
-    return await this.entity.find(payload);
+    return await this.entity
+      .find(payload)
+      .populate('user', '-password')
+      .populate({
+        path: 'prompts',
+        populate: [
+          {
+            path: 'user',
+            select: '-password',
+          },
+          {
+            path: 'response',
+          },
+        ],
+      })
+      .exec();
   }
 
   async findOneAndPopulate(payload) {

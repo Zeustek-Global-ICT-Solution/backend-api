@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Conversation } from '../conversation';
-import { User } from '../users';
+import { Document, Schema as MongooseSchema, Types } from 'mongoose';
 
 export type PromptDocument = Prompt & Document;
 
@@ -35,10 +33,10 @@ export class Prompt {
   audio: string;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Conversation' })
-  conversation: Conversation;
+  conversation: Types.ObjectId;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
-  user: User;
+  user: Types.ObjectId;
 }
 
 export const PromptSchema = SchemaFactory.createForClass(Prompt);

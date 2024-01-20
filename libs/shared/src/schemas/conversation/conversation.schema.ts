@@ -1,7 +1,7 @@
+import { Types } from 'mongoose';
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { User } from '../users';
 
 export type ConversationDocument = Conversation & Document;
 
@@ -26,7 +26,7 @@ export class Conversation {
   type: string;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
-  user: User;
+  user: Types.ObjectId;
 }
 
 export const ConversationSchema = SchemaFactory.createForClass(Conversation);
