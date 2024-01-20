@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { OPENAI_TOKEN } from '@app/shared/constant';
 import OpenAI from 'openai';
 import * as fs from 'fs';
+import { APIPromise } from 'openai/core';
 
 @Injectable()
 export class OpenAIService {
@@ -38,7 +39,7 @@ export class OpenAIService {
    */
   public async imageGenerator(payload: any) {
     try {
-      payload.variation = payload.variation || 4;
+      payload.variation = payload.variation || 6;
       payload.size = payload.size || '512x512';
       const images = await this.openClient.images.generate({
         model: 'dall-e-2',
@@ -128,6 +129,17 @@ export class OpenAIService {
         model: 'gpt-4',
       });
 
+      if (payload.file) {
+        const fileResponse = await this.openClient.files.create({
+          file: fs.createReadStream(payload.file),
+          purpose: 'assistants',
+        });
+
+        await this.openClient.beta.assistants.files.create(assistant.id, {
+          file_id: fileResponse.id,
+        });
+      }
+
       return assistant;
     } catch (error) {
       console.error(error.message);
@@ -137,7 +149,7 @@ export class OpenAIService {
   /* Upload Assistants file
    *
    */
-  public async uploadFile(payload: any) {
+  public async uploadFile(payload: any): Promise<OpenAI.Files.FileObject> {
     try {
       const response = await this.openClient.files.create({
         file: fs.createReadStream(payload.file),

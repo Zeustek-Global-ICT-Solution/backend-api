@@ -31,6 +31,7 @@ export class AssistantsController {
     @Next() next: NextFunction,
   ) {
     try {
+      Object.assign(payload, { user: req.user._id });
       const value = await this.service.create(payload);
       const response = await this.service.getResponse({
         code: 201,

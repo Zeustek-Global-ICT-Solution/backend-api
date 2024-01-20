@@ -13,23 +13,11 @@ export class ConversationsRepository extends Repository<ConversationDocument> {
   }
 
   async findAllAndPopulate(payload) {
-    return await this.entity
-      .find(payload)
-      .populate('user', '-password')
-      .populate({
-        path: 'prompts',
-        populate: [
-          {
-            path: 'user',
-            select: '-password',
-          },
-          {
-            path: 'response',
-          },
-        ],
-      })
-      .exec();
+    console.log(payload);
+
+    return await this.entity.find(payload);
   }
+
   async findOneAndPopulate(payload) {
     return await this.entity
       .findById(payload)

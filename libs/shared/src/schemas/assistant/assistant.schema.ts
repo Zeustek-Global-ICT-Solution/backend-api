@@ -15,13 +15,37 @@ export class Assistant {
     type: 'string',
     required: false,
   })
-  user: string;
+  assistantId: string;
 
   @Prop({
     type: 'string',
     required: false,
   })
-  messages: string;
+  name: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+  })
+  description: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+  })
+  instruction: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+  })
+  metadata: string;
+
+  @Prop({
+    type: ['string'],
+    required: false,
+  })
+  fileIds: string[];
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   userId: Types.ObjectId;

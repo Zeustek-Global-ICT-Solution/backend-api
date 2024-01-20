@@ -40,7 +40,21 @@ export class User {
     required: false,
     default: null,
   })
+  gender: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+    default: null,
+  })
   email: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+    default: null,
+  })
+  primaryLanguage: string;
 
   @Prop({
     type: 'string',
@@ -54,6 +68,13 @@ export class User {
     required: false,
     default: null,
   })
+  businessDescription: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+    default: null,
+  })
   businessType: string;
 
   @Prop({
@@ -61,7 +82,51 @@ export class User {
     required: false,
     default: null,
   })
-  address: string;
+  preferredCommunicationLanguage: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+    default: null,
+  })
+  customerDemographics: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+    default: null,
+  })
+  customerLanguageCommunicationPreference: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+    default: null,
+  })
+  BusinessAddress: string;
+
+  @Prop({
+    type: [
+      {
+        title: 'string',
+        price: 'number',
+        discount: 'number',
+        size: 'number',
+        unit: 'string',
+        afterDiscount: 'number',
+      },
+    ],
+    required: false,
+    default: null,
+  })
+  productOrServices: {
+    title: string;
+    price: number;
+    discount: number;
+    size: number;
+    unit: string;
+    afterDiscount: number;
+  }[];
 
   @Prop({
     type: 'string',
@@ -96,7 +161,14 @@ export class User {
     required: false,
     default: false,
   })
-  isWhatsAppEnabled: boolean;
+  isWhatsAppConneted: boolean;
+
+  @Prop({
+    type: 'boolean',
+    required: false,
+    default: false,
+  })
+  isPhoneVerified: boolean;
 
   @Prop({
     type: 'string',
@@ -144,4 +216,30 @@ UserSchema.virtual('responses', {
   ref: 'Response',
   localField: '_id',
   foreignField: 'userId',
+});
+
+UserSchema.virtual('isPersonalInfoCompleted').get(function () {
+  return (
+    this.firstName != null &&
+    this.lastName != null &&
+    this.phone != null &&
+    this.email != null
+  );
+});
+
+UserSchema.virtual('isCompanyInfoCompleted').get(function () {
+  return (
+    this.businessName != null &&
+    this.businessDescription != null &&
+    this.businessType != null &&
+    this.BusinessAddress != null
+  );
+});
+
+UserSchema.virtual('isDescriptionCompleted').get(function () {
+  return this.businessDescription != null;
+});
+
+UserSchema.virtual('isServicesProductsAndPriceCompleted').get(function () {
+  return this.productOrServices != null;
 });

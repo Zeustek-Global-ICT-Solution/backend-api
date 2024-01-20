@@ -22,6 +22,8 @@ export class ConversationsService extends BaseService {
   }
 
   public async create(payload: any) {
+    console.log(payload);
+
     try {
       return await this.repository.create(payload);
     } catch (error) {
