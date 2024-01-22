@@ -8,7 +8,7 @@ import {
   RemovedModel,
   UpdatedModel,
 } from 'nestjs-mongoose-generic-repository';
-import { User, UserDocument } from '@app/shared/schemas';
+import { UserDocument } from '@app/shared/schemas';
 import { BaseService } from '@app/shared/base/base.service';
 import { AppException } from '@app/shared';
 

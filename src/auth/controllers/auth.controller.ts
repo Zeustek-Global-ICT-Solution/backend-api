@@ -21,6 +21,7 @@ import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { NextFunction } from 'express';
 import { RegisterAuthDto } from '../dto/register-auth.dto';
 import { LoginAuthDto } from '../dto/login-auth.dto';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -117,6 +118,29 @@ export class AuthController {
         code: 200,
         value,
         message: 'Get token was successful',
+      });
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  @Patch('/verify-phone')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  async verifyPhone(
+    @Body() payload: any,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      Object.assign(payload, { userId: req.user._id });
+      const value = await this.authService.verifyPhone(payload);
+      const response = await this.authService.getResponse({
+        code: 200,
+        value,
+        message: 'Phone number verification was successful',
       });
       return res.status(200).json(response);
     } catch (error) {

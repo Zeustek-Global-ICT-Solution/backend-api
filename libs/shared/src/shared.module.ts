@@ -6,6 +6,7 @@ import { OpenaiModule } from './openai/openai.module';
 import { AzureFileUploadModule } from './azure-file-upload/azure-file-upload.module';
 import { AppAssistantEventModule } from './app-assistant-event/app-assistant-event.module';
 import { PusherModule } from './pusher/pusher.module';
+import { WhatsappModule } from './whatsapp/whatsapp.module';
 
 @Module({
   providers: [SharedService],
@@ -17,6 +18,7 @@ import { PusherModule } from './pusher/pusher.module';
     AzureFileUploadModule,
     AppAssistantEventModule,
     PusherModule,
+    WhatsappModule,
   ],
 })
 export class SharedModule {}

@@ -166,4 +166,14 @@ export class AuthService extends BaseService {
     }
     return { isVerified };
   }
+
+  async verifyPhone(payload: any) {
+    let isVerified = false;
+    const result = await this.cacheManager.get(payload.phone);
+    if (result == payload.code) {
+      await this.usersService.update(payload.userId, { isPhoneVerified: true });
+      isVerified = true;
+    }
+    return { isVerified };
+  }
 }

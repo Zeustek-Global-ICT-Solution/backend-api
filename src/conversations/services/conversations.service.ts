@@ -7,7 +7,6 @@ import { BaseService } from '@app/shared/base/base.service';
 import { ConversationsRepository } from '../repositories/converstion.repository';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PromptsService } from 'src/prompts/services/prompts.service';
-import { CreatePromptEvent } from '@app/shared/schemas/conversation/create-prompt.event';
 
 @Injectable()
 export class ConversationsService extends BaseService {

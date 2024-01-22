@@ -68,6 +68,13 @@ export class User {
     required: false,
     default: null,
   })
+  businessPhone: string;
+
+  @Prop({
+    type: 'string',
+    required: false,
+    default: null,
+  })
   businessDescription: string;
 
   @Prop({

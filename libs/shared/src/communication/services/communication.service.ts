@@ -18,11 +18,6 @@ export class CommunicationService {
   ) {}
   public async sendEmail(payload: any) {
     try {
-      console.log(
-        payload,
-        this.config.get<string>('service.azure.emailDomain'),
-      );
-
       const emailMessage = {
         senderAddress: this.config.get<string>('service.azure.emailDomain'),
         content: {
@@ -60,7 +55,6 @@ export class CommunicationService {
         this.httpService.get(url).pipe(
           catchError((error: AxiosError) => {
             throw new AppException(error.response.status, error.response.data);
-            throw 'An error happened!';
           }),
         ),
       );
