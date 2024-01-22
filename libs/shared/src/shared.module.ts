@@ -7,6 +7,7 @@ import { AzureFileUploadModule } from './azure-file-upload/azure-file-upload.mod
 import { AppAssistantEventModule } from './app-assistant-event/app-assistant-event.module';
 import { PusherModule } from './pusher/pusher.module';
 import { WhatsappModule } from './whatsapp/whatsapp.module';
+import { AppBullModule } from './app-bull/app-bull.module';
 
 @Module({
   providers: [SharedService],
@@ -19,6 +20,7 @@ import { WhatsappModule } from './whatsapp/whatsapp.module';
     AppAssistantEventModule,
     PusherModule,
     WhatsappModule,
+    AppBullModule,
   ],
 })
 export class SharedModule {}
