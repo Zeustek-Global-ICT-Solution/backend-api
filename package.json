@@ -51,6 +51,7 @@
     "File": "^0.10.2",
     "mongoose-paginate": "^5.0.3",
     "nestjs-mongoose-generic-repository": "^0.0.2",
+    "nigeria-bulk-sms": "^1.0.8",
     "openai": "^4.24.7",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",

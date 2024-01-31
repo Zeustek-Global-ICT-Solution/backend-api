@@ -1,18 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Inject, Injectable } from '@nestjs/common';
-import { EMAIL_TOKEN, SMS_TOKEN } from '../../constant';
+import { EMAIL_TOKEN, NBS_SMS_TOKEN, SMS_TOKEN } from '../../constant';
 import { EmailClient } from '@azure/communication-email';
 import { SmsClient } from '@azure/communication-sms';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
-import { catchError, firstValueFrom } from 'rxjs';
-import { AxiosError } from 'axios';
 import { AppException } from '@app/shared/exceptions';
+import { NBSMS } from 'nigeria-bulk-sms';
 
 @Injectable()
 export class CommunicationService {
   constructor(
     @Inject(EMAIL_TOKEN) private readonly emailClient: EmailClient,
     @Inject(SMS_TOKEN) private readonly smsClient: SmsClient,
+    @Inject(NBS_SMS_TOKEN) private readonly nbmSmsClient: NBSMS,
     private readonly httpService: HttpService,
     protected config: ConfigService,
   ) {}
@@ -50,16 +51,13 @@ export class CommunicationService {
 
   public async sendNBSSMS(payload: any) {
     try {
-      const url = `https://portal.nigeriabulksms.com/api/?username=${this.config.get<string>('service.nbsms.username')}&password=${this.config.get<string>('service.nbsms.password')}&message=${payload.message}&sender=${this.config.get<string>('service.nbsms.sender')}&mobiles=${payload.phones.map((x) => x.phone)[0]}`;
-      const { data } = await firstValueFrom(
-        this.httpService.get(url).pipe(
-          catchError((error: AxiosError) => {
-            throw new AppException(error.response.status, error.response.data);
-          }),
-        ),
-      );
-      return data;
+      return await this.nbmSmsClient.sms.send({
+        message: payload.message,
+        phones: payload.phones.map((p) => p.phone),
+      });
     } catch (error) {
+      console.log(error);
+
       throw new AppException(400, error);
     }
   }

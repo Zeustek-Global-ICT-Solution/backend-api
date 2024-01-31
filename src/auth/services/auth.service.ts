@@ -58,7 +58,7 @@ export class AuthService extends BaseService {
         user: user,
         access_token: await this.jwtService.signAsync(payload, {
           secret: this.config.get<string>('app.jwt_secret'),
-          expiresIn: '1d',
+          expiresIn: this.config.get('app.jwt_expiration'),
         }),
       };
     } catch (error) {

@@ -13,7 +13,7 @@ export const configuration = () => ({
     domain: process.env.DOMAIN,
   },
   service: {
-    serviceName: process.env.SERVICE_NAME || 'Api Gateway',
+    serviceName: process.env.SERVICE_NAME || 'Api Jummai',
     type: ServiceTypes.HTTP,
     frontendDomain: process.env.FRONTEND_DOMAIN,
     port: process.env.PORT || 3000,
