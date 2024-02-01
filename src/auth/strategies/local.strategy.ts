@@ -1,8 +1,9 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { User } from '@app/shared/schemas';
+import { AppException } from '@app/shared';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -22,7 +23,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     console.log(userWithoutPsw);
 
     if (!userWithoutPsw) {
-      throw new UnauthorizedException();
+      throw new AppException(404, 'Invalid credentials');
     }
     return userWithoutPsw;
   }

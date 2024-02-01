@@ -71,7 +71,6 @@ export class AuthController {
         value: value.user,
         message: 'Login was successful',
       });
-      console.log(response, 'response');
 
       return res.status(200).json(response);
     } catch (error) {
