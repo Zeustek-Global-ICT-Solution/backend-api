@@ -33,6 +33,11 @@ export const configuration = () => ({
     openAI: {
       apiKey: process.env.OPENAI_API_KEY,
     },
+    cloudinary: {
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+      apiKey: process.env.CLOUDINARY_API_KEY,
+      apiSecret: process.env.CLOUDINARY_API_SECRET,
+    },
     nbsms: {
       username: process.env.NBSMS_USERNAME,
       password: process.env.NBSMS_PASSWORD,

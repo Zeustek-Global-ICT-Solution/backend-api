@@ -1,16 +1,17 @@
-import { AzureFileUploadService } from '@app/shared/azure-file-upload/services/azure-file-upload.service';
 import { BaseService } from '@app/shared/base/base.service';
+import { CloudinaryService } from '@app/shared/cloudinary/service/cloudinary.service';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FilesUploadService extends BaseService {
-  constructor(private readonly service: AzureFileUploadService) {
+  constructor(private service: CloudinaryService) {
     super();
   }
   public async uploadFile(file: Express.Multer.File): Promise<any> {
-    return await this.service.uploadFile(file);
-  }
-  public async getFile(fileName: string): Promise<any> {
-    return await this.service.getFile(fileName);
+    const result = await this.service.uploadImage(file);
+    const { public_id, url, secure_url, resource_type, format, width, height } =
+      result;
+
+    return { public_id, url, secure_url, resource_type, format, width, height };
   }
 }

@@ -8,6 +8,7 @@ import { AppAssistantEventModule } from './app-assistant-event/app-assistant-eve
 import { PusherModule } from './pusher/pusher.module';
 import { WhatsappModule } from './whatsapp/whatsapp.module';
 import { AppBullModule } from './app-bull/app-bull.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   providers: [SharedService],
@@ -21,6 +22,7 @@ import { AppBullModule } from './app-bull/app-bull.module';
     PusherModule,
     WhatsappModule,
     AppBullModule,
+    CloudinaryModule,
   ],
 })
 export class SharedModule {}

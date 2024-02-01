@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { FilesUploadService } from './services/files-upload.service';
 import { FilesUploadController } from './controllers/files-upload.controller';
-import { AzureFileUploadModule } from '@app/shared/azure-file-upload/azure-file-upload.module';
+import { CloudinaryModule } from '@app/shared/cloudinary/cloudinary.module';
 
 @Module({
-  imports: [AzureFileUploadModule],
+  imports: [CloudinaryModule],
   controllers: [FilesUploadController],
   providers: [FilesUploadService],
 })
