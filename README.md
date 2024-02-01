@@ -8,7 +8,7 @@
 
 ## Description
 
-Jummai Api is restful base api build with nestjs.
+Jummai Api is restful base api build with nestjs for generative AI platform call jummai
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
