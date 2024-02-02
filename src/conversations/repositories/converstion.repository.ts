@@ -12,6 +12,11 @@ export class ConversationsRepository extends Repository<ConversationDocument> {
     super(entity);
   }
 
+  /**
+   *
+   * @param payload filter queries
+   * @returns onject
+   */
   async findAllAndPopulate(payload) {
     console.log(payload);
 
@@ -33,6 +38,11 @@ export class ConversationsRepository extends Repository<ConversationDocument> {
       .exec();
   }
 
+  /**
+   *
+   * @param payload
+   * @returns object
+   */
   async findOneAndPopulate(payload) {
     return await this.entity
       .findById(payload)

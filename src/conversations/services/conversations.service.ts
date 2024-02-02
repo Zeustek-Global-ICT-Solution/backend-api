@@ -22,7 +22,6 @@ export class ConversationsService extends BaseService {
 
   public async create(payload: any) {
     console.log(payload);
-
     try {
       return await this.repository.create(payload);
     } catch (error) {
@@ -81,6 +80,7 @@ export class ConversationsService extends BaseService {
       if (!payload.conversation) {
         const newConversation = await this.repository.create({
           title: payload.content,
+          user: payload.user,
         });
         payload.conversation = newConversation.id;
       }
