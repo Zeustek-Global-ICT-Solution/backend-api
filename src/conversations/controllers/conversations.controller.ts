@@ -69,7 +69,6 @@ export class ConversationsController {
         Object.assign(payload, { user: req.user._id });
       }
       const value = await this.conversationsService.completions(payload);
-      console.log(value, 'hhehehehe');
       const response = await this.conversationsService.getResponse({
         code: 201,
         value: value,

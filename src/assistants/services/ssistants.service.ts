@@ -32,7 +32,7 @@ export class AssistantsService extends BaseService {
       const file = await this.generateAndUploadFile(
         JSON.stringify(user.productOrServices),
       );
-      console.log(file, JSON.stringify(user.productOrServices));
+
       if (!user.isWhatsAppConneted) {
         throw new AppException(400, 'Whatsapp account not connected');
       }

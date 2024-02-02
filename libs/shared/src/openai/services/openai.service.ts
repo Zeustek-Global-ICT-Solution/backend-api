@@ -13,7 +13,7 @@ export class OpenAIService {
     protected config: ConfigService,
   ) {}
 
-  /* Chat Completion
+  /**  Chat Completion
    *
    */
   public async chatCompletion(payload: any) {
@@ -34,7 +34,8 @@ export class OpenAIService {
     }
   }
 
-  /* Image Generator
+  /**  Image Generator
+   * @param payload
    *
    */
   public async imageGenerator(payload: any) {
@@ -52,6 +53,7 @@ export class OpenAIService {
       console.error(error.message);
     }
   }
+
   /* Image Generator
    *
    */

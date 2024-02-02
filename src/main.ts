@@ -7,6 +7,7 @@ import { ResponseFilter } from '@app/shared';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const PORT = process.env.PORT || 3000;
+  app.enableCors();
 
   const globalPrefix = '/api';
   app.setGlobalPrefix(globalPrefix);
