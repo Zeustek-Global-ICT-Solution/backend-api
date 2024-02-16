@@ -131,17 +131,19 @@ export class ConversationsController {
   @Post('/speech-text')
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('audio'))
   async speechText(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile('audio') audio: Express.Multer.File,
     @Body() payload: any,
     @Req() req,
     @Res() res,
     @Next() next: NextFunction,
   ) {
     try {
+      console.log(audio);
+
       const value = await this.conversationsService.speechToText({
-        file,
+        audio,
         ...payload,
       });
       const response = await this.conversationsService.getResponse({
