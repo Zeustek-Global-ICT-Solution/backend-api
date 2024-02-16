@@ -123,9 +123,9 @@ export class ConversationsService extends BaseService {
   public async imageGenerator(payload: any) {
     try {
       const result = await this.openAIService.imageGenerator(payload);
-
-      console.log(result.data.map((image) => image.url));
-
+      if (!result?.data) {
+        throw new AppException(404, 'Error generating image');
+      }
       if (payload?.conversation === '') {
         const newConversation = await this.repository.create({
           title: payload.content,
@@ -133,7 +133,6 @@ export class ConversationsService extends BaseService {
           type: payload.type,
         });
         payload.conversation = newConversation.id;
-        console.log(payload, newConversation.id);
       }
       // TODO: Create prompt
       const prompt = await this.promptsService.create({
