@@ -90,6 +90,9 @@ export class ConversationsController {
     @Next() next: NextFunction,
   ) {
     try {
+      if (req.user) {
+        Object.assign(payload, { user: req.user._id });
+      }
       const value = await this.conversationsService.imageGenerator(payload);
       const response = await this.conversationsService.getResponse({
         code: 201,
