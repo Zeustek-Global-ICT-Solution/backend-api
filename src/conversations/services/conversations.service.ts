@@ -77,10 +77,11 @@ export class ConversationsService extends BaseService {
       // TODO: Call openai api
       const result = await this.openAIService.chatCompletion(payload);
 
-      if (!payload.conversation) {
+      if (!payload.conversation && payload.conversation !== '') {
         const newConversation = await this.repository.create({
           title: payload.content,
           user: payload.user,
+          type: payload.type,
         });
         payload.conversation = newConversation.id;
       }
@@ -127,6 +128,7 @@ export class ConversationsService extends BaseService {
       }
 
       const result = await this.openAIService.imageGenerator(payload);
+      console.log(result.data.map((image) => image.url));
 
       // TODO: Create prompt
       const prompt = await this.promptsService.create({
@@ -140,7 +142,7 @@ export class ConversationsService extends BaseService {
       await this.responsesService.create({
         conversation: payload.conversation,
         user: payload.user,
-        images: result,
+        images: result.data.map((image) => image.url),
         prompt: prompt.id,
         type: payload.type,
       });
@@ -153,6 +155,8 @@ export class ConversationsService extends BaseService {
 
       return await this.promptsService.findOneByIdAndPopulate(prompt.id);
     } catch (error) {
+      console.log(error);
+
       throw new AppException(400, error.message);
     }
   }

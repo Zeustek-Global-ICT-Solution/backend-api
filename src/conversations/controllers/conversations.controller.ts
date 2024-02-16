@@ -185,6 +185,7 @@ export class ConversationsController {
       }
 
       if (req.user._id) {
+        console.log(req.user._id);
         Object.assign(queries, { user: req.user._id });
       }
       const value = await this.conversationsService.findAll(queries);

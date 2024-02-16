@@ -40,7 +40,7 @@ export class OpenAIService {
    */
   public async imageGenerator(payload: any) {
     try {
-      payload.variation = payload.variation || 6;
+      payload.variation = payload.variation || 4;
       payload.size = payload.size || '512x512';
       const images = await this.openClient.images.generate({
         model: 'dall-e-2',
@@ -49,6 +49,7 @@ export class OpenAIService {
         size: payload.size,
       });
       return images;
+      console.log(images);
     } catch (error) {
       console.error(error.message);
     }

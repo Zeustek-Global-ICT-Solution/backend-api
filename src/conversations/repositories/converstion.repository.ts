@@ -18,8 +18,6 @@ export class ConversationsRepository extends Repository<ConversationDocument> {
    * @returns onject
    */
   async findAllAndPopulate(payload) {
-    console.log(payload);
-
     return await this.entity
       .find(payload)
       .populate('user', '-password')
