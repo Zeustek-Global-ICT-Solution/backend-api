@@ -122,15 +122,19 @@ export class ConversationsService extends BaseService {
   // Generate 4 images of different variation
   public async imageGenerator(payload: any) {
     try {
-      // TODO: get conversation with given id
-      const conversation = await this.repository.findById(payload.conversation);
-      if (!conversation) {
-        throw new AppException(400, 'Resource not found');
-      }
-
       const result = await this.openAIService.imageGenerator(payload);
+
       console.log(result.data.map((image) => image.url));
 
+      if (payload?.conversation === '') {
+        const newConversation = await this.repository.create({
+          title: payload.content,
+          user: payload.user,
+          type: payload.type,
+        });
+        payload.conversation = newConversation.id;
+        console.log(payload, newConversation.id);
+      }
       // TODO: Create prompt
       const prompt = await this.promptsService.create({
         conversation: payload.conversation,
@@ -148,6 +152,8 @@ export class ConversationsService extends BaseService {
         type: payload.type,
       });
 
+      // TODO: Update the conversation title if default to 'New conversation'
+      const conversation = await this.repository.findById(payload.conversation);
       // TODO: Update the conversation title if default to 'New conversation'
       if (conversation.title === 'New Conversation') {
         conversation.title = payload.content;
