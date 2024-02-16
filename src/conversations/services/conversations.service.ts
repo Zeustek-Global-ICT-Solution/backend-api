@@ -77,13 +77,14 @@ export class ConversationsService extends BaseService {
       // TODO: Call openai api
       const result = await this.openAIService.chatCompletion(payload);
 
-      if (!payload.conversation && payload.conversation !== '') {
+      if (payload?.conversation === '') {
         const newConversation = await this.repository.create({
           title: payload.content,
           user: payload.user,
           type: payload.type,
         });
         payload.conversation = newConversation.id;
+        console.log(payload, newConversation.id);
       }
 
       // TODO: Create prompt
