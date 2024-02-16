@@ -107,7 +107,7 @@ export class ConversationsService extends BaseService {
       // TODO: Update the conversation title if default to 'New conversation'
       const conversation = await this.repository.findById(payload.conversation);
 
-      if (conversation.title === 'New Conversation') {
+      if (conversation?.title === 'New Conversation') {
         conversation.title = payload.content;
         await conversation.save();
       }
