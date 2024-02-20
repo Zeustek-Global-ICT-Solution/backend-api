@@ -157,6 +157,37 @@ export class ConversationsController {
     }
   }
 
+  @Post('/audio-transcriptor')
+  @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('file'))
+  async audioTranscript(
+    @UploadedFile('file') file: Express.Multer.File,
+    @Body() payload: any,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      if (req.user) {
+        Object.assign(payload, { user: req.user._id });
+      }
+      const text = await this.conversationsService.audioTranscript(file);
+
+      Object.assign(payload, { content: text, audio: file.buffer });
+      const value = await this.conversationsService.completions(payload);
+
+      const response = await this.conversationsService.getResponse({
+        code: 201,
+        value: value,
+        message: 'Speech to text generator was successful',
+      });
+      return res.status(201).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   @Get()
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)

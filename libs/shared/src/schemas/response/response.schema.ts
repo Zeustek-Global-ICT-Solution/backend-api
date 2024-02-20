@@ -30,7 +30,7 @@ export class Response {
 
   @Prop({
     type: 'string',
-    enum: ['text', 'image', 'audio'],
+    enum: ['text', 'image', 'voice'],
     default: 'text',
   })
   type: string;

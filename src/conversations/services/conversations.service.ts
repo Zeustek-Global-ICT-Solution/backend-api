@@ -7,6 +7,9 @@ import { BaseService } from '@app/shared/base/base.service';
 import { ConversationsRepository } from '../repositories/converstion.repository';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PromptsService } from 'src/prompts/services/prompts.service';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
+import * as fs from 'fs';
 
 @Injectable()
 export class ConversationsService extends BaseService {
@@ -16,6 +19,7 @@ export class ConversationsService extends BaseService {
     private readonly responsesService: ResponsesService,
     private readonly repository: ConversationsRepository,
     private readonly eventEmitter: EventEmitter2,
+    private readonly httpService: HttpService,
   ) {
     super();
   }
@@ -91,6 +95,7 @@ export class ConversationsService extends BaseService {
       const prompt = await this.promptsService.create({
         conversation: payload.conversation,
         content: payload.content,
+        audio: payload?.audio,
         type: payload.type,
         user: payload.user,
       });
@@ -197,6 +202,39 @@ export class ConversationsService extends BaseService {
     try {
       return await this.openAIService.speechToText(payload);
     } catch (error) {
+      throw new AppException(400, error.message);
+    }
+  }
+
+  public async audioTranscript(file: Express.Multer.File) {
+    try {
+      // const data = fs.readFileSync(file.path, { encoding: 'utf-8' });
+
+      const response$ = this.httpService.post(
+        'https://api-inference.huggingface.co/models/DrishtiSharma/whisper-large-v2-hausa',
+        file.buffer,
+        {
+          headers: {
+            Authorization: 'Bearer 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',
+            Accept: 'application/json',
+            'Content-Type': 'audio/flac',
+          },
+        },
+      );
+
+      const res = await firstValueFrom(response$);
+      console.log(res.data);
+      const { text, error } = res.data;
+
+      if (error) {
+        throw new AppException(400, error);
+      }
+
+      return text;
+      // return data;
+    } catch (error) {
+      console.log(error);
+
       throw new AppException(400, error.message);
     }
   }
