@@ -26,6 +26,7 @@ export class PromptsRepository extends Repository<PromptDocument> {
       .populate('user', '-password')
       .populate('conversation')
       .populate('response')
+      .limit(10)
       .exec();
   }
 }

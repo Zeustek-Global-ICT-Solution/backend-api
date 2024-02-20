@@ -44,6 +44,28 @@ export class AssistantsController {
     }
   }
 
+  @Post('/whatsapp/webhook')
+  @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard)
+  async webhook(
+    @Body() payload: any,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const value = await this.service.handleWebhook(payload);
+      const response = await this.service.getResponse({
+        code: 201,
+        value: value,
+        message: 'Create assistant was successful',
+      });
+      return res.status(201).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   @Get()
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)

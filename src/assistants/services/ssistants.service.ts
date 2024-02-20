@@ -37,11 +37,6 @@ export class AssistantsService extends BaseService {
         throw new AppException(400, 'Whatsapp account not connected');
       }
 
-      // Generate file with retrived user information
-      // const file = await this.generateAndUploadFile(
-      //   JSON.stringify(user.businessDescription),
-      // );
-
       Object.assign(payload, { file });
 
       // Create openai assistance
@@ -68,6 +63,16 @@ export class AssistantsService extends BaseService {
   ): Promise<AssistantDocument[]> {
     try {
       return await this.repository.find(payload);
+    } catch (error) {
+      throw new AppException(400, error.message);
+    }
+  }
+
+  async handleWebhook(payload: Record<string, any> = {}): Promise<any> {
+    try {
+      console.log(payload);
+
+      return payload;
     } catch (error) {
       throw new AppException(400, error.message);
     }
