@@ -128,7 +128,36 @@ export class ConversationsService extends BaseService {
   public async imageGenerator(payload: any) {
     try {
       const result = await this.openAIService.imageGenerator(payload);
-      if (!result?.data) {
+      // const response$ = this.httpService.post(
+      //   'https://gee4x5fyi4v5t7r1.us-east-1.aws.endpoints.huggingface.cloud',
+      //   {
+      //     inputs: payload.content,
+      //     parameters: {
+      //       width: 512,
+      //       height: 512,
+      //       num_inference_steps: 25,
+      //       guidance_scale: 7.5,
+      //       // num_images: 4, // na for here you go specify the number of images
+      //       negative_prompt: 'Blurry, undefined features, low detail',
+      //     },
+      //   },
+      //   {
+      //     headers: {
+      //       Accept: 'image/png',
+      //       'Content-Type': 'application/json',
+      //     },
+      //   },
+      // );
+
+      // const res = await firstValueFrom(response$);
+
+      // // const result = await res.data.arrayBuffer();
+      // // console.log(result);
+      // // const img = Buffer.from(result).toString('base64');
+      // console.log(typeof res.data);
+      // const { error } = res.data;
+
+      if (!result.data) {
         throw new AppException(404, 'Error generating image');
       }
       if (payload?.conversation === '') {

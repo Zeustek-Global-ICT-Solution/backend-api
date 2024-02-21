@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Conversation, ConversationSchema } from '@app/shared/schemas';
 import { ConversationsRepository } from './repositories/converstion.repository';
 import { HttpModule } from '@nestjs/axios';
+import { CloudinaryModule } from '@app/shared/cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { HttpModule } from '@nestjs/axios';
     PromptsModule,
     ResponsesModule,
     HttpModule,
+    CloudinaryModule,
   ],
   controllers: [ConversationsController],
   providers: [ConversationsService, ConversationsRepository],

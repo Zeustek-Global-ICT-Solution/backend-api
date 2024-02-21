@@ -10,6 +10,7 @@ import { BaseService } from '@app/shared/base/base.service';
 import { ConfigService } from '@nestjs/config';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class AuthService extends BaseService {
@@ -18,6 +19,7 @@ export class AuthService extends BaseService {
     protected jwtService: JwtService,
     protected communicationService: CommunicationService,
     protected config: ConfigService,
+    private readonly httpService: HttpService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {
     super();
@@ -128,6 +130,29 @@ export class AuthService extends BaseService {
           message: `Jummai verification code: ${token}`,
         });
       }
+    } catch (error) {
+      throw new AppException(400, error);
+    }
+  }
+
+  async getWhatsappToken(phone: string) {
+    try {
+      const payload = {};
+
+      const user = await this.usersService.findOne({ phone });
+
+      if (!user) {
+        throw new AppException(400, 'Phone number doesnt exits');
+      }
+
+      const token =
+        this.config.get<string>('service.nodeEnv') == 'production'
+          ? Utils.generateToke()
+          : 123456;
+      const saved = await this.cacheManager.set(phone, token, 60 * 60 * 1000);
+      // const url =
+      //   `https://graph.facebook.com/${apiVersion}/${wabaID}/message_templates` +
+      //   `?access_token=${accessToken}`;
     } catch (error) {
       throw new AppException(400, error);
     }

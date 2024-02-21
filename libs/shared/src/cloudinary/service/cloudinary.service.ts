@@ -11,6 +11,7 @@ export class CloudinaryService {
       const upload = v2.uploader.upload_stream(
         {
           folder: 'jummai',
+          resource_type: 'auto',
         },
         (error, result) => {
           if (error) return reject(error);

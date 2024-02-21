@@ -124,6 +124,27 @@ export class AuthController {
     }
   }
 
+  @Get('/:phone/whatsapp-token')
+  @HttpCode(HttpStatus.OK)
+  async getWhatsappToken(
+    @Param('phone') phone: string,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const value = await this.authService.getWhatsappToken(phone);
+      const response = await this.authService.getResponse({
+        code: 200,
+        value,
+        message: 'Get token was successful',
+      });
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   @Patch('/verify-phone')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)

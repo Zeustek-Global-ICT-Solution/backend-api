@@ -21,12 +21,15 @@ import {
 import { ConversationsService } from '../services/conversations.service';
 import { CreateConversationDto } from '../dto/create-conversation.dto';
 import { NextFunction } from 'express';
-import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CloudinaryService } from '@app/shared/cloudinary/service/cloudinary.service';
 
 @Controller('conversations')
 export class ConversationsController {
-  constructor(private readonly conversationsService: ConversationsService) {}
+  constructor(
+    private readonly conversationsService: ConversationsService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
@@ -174,7 +177,11 @@ export class ConversationsController {
       }
       const text = await this.conversationsService.audioTranscript(file);
 
-      Object.assign(payload, { content: text, audio: file.buffer });
+      const result = await this.cloudinaryService.uploadImage(file);
+      const { secure_url } = result;
+
+      Object.assign(payload, { content: text, audio: secure_url });
+
       const value = await this.conversationsService.completions(payload);
 
       const response = await this.conversationsService.getResponse({
@@ -184,6 +191,8 @@ export class ConversationsController {
       });
       return res.status(201).json(response);
     } catch (error) {
+      console.log(error);
+
       next(error);
     }
   }
