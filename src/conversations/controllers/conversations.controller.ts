@@ -175,7 +175,6 @@ export class ConversationsController {
       if (req.user) {
         Object.assign(payload, { user: req.user._id });
       }
-      console.log(file);
 
       const text = await this.conversationsService.audioTranscript(file);
 
