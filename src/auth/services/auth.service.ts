@@ -35,7 +35,9 @@ export class AuthService extends BaseService {
         throw new AppException(409, 'User already registered');
       }
       const payload = { password: createAuthDto.password };
+
       const isEmail = Utils.isEmail(createAuthDto.id);
+
       if (isEmail) {
         Object.assign(payload, { email: createAuthDto.id });
       } else {
@@ -71,18 +73,22 @@ export class AuthService extends BaseService {
   async validateUser(createAuthDto: any) {
     try {
       const payload = {};
+
       const isEmail = await Utils.isEmail(createAuthDto.id);
+
       if (isEmail) {
         Object.assign(payload, { email: createAuthDto.id });
       } else {
         Object.assign(payload, { phone: createAuthDto.id });
       }
+
       const user = await this.usersService.findOne(payload);
 
       const isMatch = await bcrypt.compare(
         createAuthDto.password,
         user.password,
       );
+
       if (user && isMatch) {
         const { password, ...userWithoutPassword } = user.toJSON();
         return userWithoutPassword;
@@ -172,9 +178,11 @@ export class AuthService extends BaseService {
       }
 
       const hashedPassword = await Utils.hashPassword(payload.password);
+
       const response = await this.usersService.update(user._id, {
         password: hashedPassword,
       });
+
       return response;
     } catch (error) {
       console.log(error);

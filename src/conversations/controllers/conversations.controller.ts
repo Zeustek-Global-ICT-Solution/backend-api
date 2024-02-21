@@ -175,9 +175,12 @@ export class ConversationsController {
       if (req.user) {
         Object.assign(payload, { user: req.user._id });
       }
+      console.log(file);
+
       const text = await this.conversationsService.audioTranscript(file);
 
       const result = await this.cloudinaryService.uploadImage(file);
+
       const { secure_url } = result;
 
       Object.assign(payload, { content: text, audio: secure_url });
@@ -189,6 +192,7 @@ export class ConversationsController {
         value: value,
         message: 'Speech to text generator was successful',
       });
+
       return res.status(201).json(response);
     } catch (error) {
       console.log(error);
@@ -203,11 +207,13 @@ export class ConversationsController {
   async findAll(@Req() req, @Res() res, @Next() next: NextFunction) {
     try {
       const value = await this.conversationsService.findAll();
+
       const response = await this.conversationsService.getResponse({
         code: 200,
         value: value,
         message: 'Find all conversations was successful',
       });
+
       return res.status(200).json(response);
     } catch (error) {
       next(error);
@@ -234,6 +240,7 @@ export class ConversationsController {
         Object.assign(queries, { user: req.user._id });
       }
       const value = await this.conversationsService.findAll(queries);
+
       const response = await this.conversationsService.getResponse({
         code: 200,
         value: value,
