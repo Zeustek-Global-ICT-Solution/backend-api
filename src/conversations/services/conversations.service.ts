@@ -128,73 +128,73 @@ export class ConversationsService extends BaseService {
   public async imageGenerator(payload: any) {
     try {
       const result = await this.openAIService.imageGenerator(payload);
-      const response$ = this.httpService.post(
-        'https://gee4x5fyi4v5t7r1.us-east-1.aws.endpoints.huggingface.cloud',
-        {
-          inputs: payload.content,
-          parameters: {
-            width: 512,
-            height: 512,
-            num_inference_steps: 25,
-            guidance_scale: 7.5,
-            // num_images: 4, // na for here you go specify the number of images
-            negative_prompt: 'Blurry, undefined features, low detail',
-          },
-        },
-        {
-          headers: {
-            Accept: 'image/png',
-            'Content-Type': 'application/json',
-          },
-        },
-      );
+      // const response$ = this.httpService.post(
+      //   'https://gee4x5fyi4v5t7r1.us-east-1.aws.endpoints.huggingface.cloud',
+      //   {
+      //     inputs: payload.content,
+      //     parameters: {
+      //       width: 512,
+      //       height: 512,
+      //       num_inference_steps: 25,
+      //       guidance_scale: 7.5,
+      //       // num_images: 4, // na for here you go specify the number of images
+      //       negative_prompt: 'Blurry, undefined features, low detail',
+      //     },
+      //   },
+      //   {
+      //     headers: {
+      //       Accept: 'image/png',
+      //       'Content-Type': 'application/json',
+      //     },
+      //   },
+      // );
 
-      const res = await firstValueFrom(response$);
+      // const res = await firstValueFrom(response$);
 
-      // const result = await res.data.arrayBuffer();
-      // console.log(result);
-      // const img = Buffer.from(result).toString('base64');
-      // console.log(typeof );
-      const { error } = res.data;
+      // // const result = await res.data.arrayBuffer();
+      // // console.log(result);
+      // // const img = Buffer.from(result).toString('base64');
+      // // console.log(typeof );
+      // const { error } = res.data;
 
-      // if (!result.data) {
-      //   throw new AppException(404, 'Error generating image');
-      // }
-      // if (payload?.conversation === '') {
-      //   const newConversation = await this.repository.create({
-      //     title: payload.content,
-      //     user: payload.user,
-      //     type: payload.type,
-      //   });
-      //   payload.conversation = newConversation.id;
-      // }
+      if (!result.data) {
+        throw new AppException(404, 'Error generating image');
+      }
+      if (payload?.conversation === '') {
+        const newConversation = await this.repository.create({
+          title: payload.content,
+          user: payload.user,
+          type: payload.type,
+        });
+        payload.conversation = newConversation.id;
+      }
       // // TODO: Create prompt
-      // const prompt = await this.promptsService.create({
-      //   conversation: payload.conversation,
-      //   content: payload.content,
-      //   type: payload.type,
-      //   user: payload.user,
-      // });
+      const prompt = await this.promptsService.create({
+        conversation: payload.conversation,
+        content: payload.content,
+        type: payload.type,
+        user: payload.user,
+      });
 
       // // TODO: Create response of the result from openai
-      // await this.responsesService.create({
-      //   conversation: payload.conversation,
-      //   user: payload.user,
-      //   images: result.data.map((image) => image.url),
-      //   prompt: prompt.id,
-      //   type: payload.type,
-      // });
+      await this.responsesService.create({
+        conversation: payload.conversation,
+        user: payload.user,
+        images: result.data.map((image) => image.url),
+        prompt: prompt.id,
+        type: payload.type,
+      });
 
       // // TODO: Update the conversation title if default to 'New conversation'
-      // const conversation = await this.repository.findById(payload.conversation);
+      const conversation = await this.repository.findById(payload.conversation);
       // // TODO: Update the conversation title if default to 'New conversation'
-      // if (conversation.title === 'New Conversation') {
-      //   conversation.title = payload.content;
-      //   await conversation.save();
-      // }
+      if (conversation.title === 'New Conversation') {
+        conversation.title = payload.content;
+        await conversation.save();
+      }
 
-      // return await this.promptsService.findOneByIdAndPopulate(prompt.id);
-      return res.data;
+      return await this.promptsService.findOneByIdAndPopulate(prompt.id);
+      // return res.data;
     } catch (error) {
       console.log(error);
 
@@ -261,6 +261,42 @@ export class ConversationsService extends BaseService {
       }
 
       return text;
+      // return data;
+    } catch (error) {
+      console.log(error);
+
+      throw new AppException(400, error.message);
+    }
+  }
+
+  public async textAudio(content: string) {
+    try {
+      // const data = fs.readFileSync(file.path, { encoding: 'utf-8' });
+
+      const response$ = this.httpService.post(
+        'https://api-inference.huggingface.co/models/zeustek/jummai-hausa-tts',
+        content,
+        {
+          headers: {
+            Authorization: 'Bearer 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',
+            'Content-Type': 'audio/flac',
+          },
+        },
+      );
+
+      const res = await firstValueFrom(response$);
+      console.log(res.data);
+      const { error } = res.data;
+
+      if (error) {
+        throw new AppException(400, error);
+      }
+      const byteNumbers = [];
+      const byteCharacters = atob(res.data);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      return byteNumbers;
       // return data;
     } catch (error) {
       console.log(error);

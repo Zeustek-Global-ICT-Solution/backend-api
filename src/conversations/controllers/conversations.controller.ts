@@ -200,6 +200,36 @@ export class ConversationsController {
     }
   }
 
+  @Post('/text-audio')
+  @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard)
+  async textAudio(
+    @Body() payload: any,
+    @Req() req,
+    @Res() res,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      if (req.user) {
+        Object.assign(payload, { user: req.user._id });
+      }
+
+      const value = await this.conversationsService.textAudio(payload.content);
+
+      const response = await this.conversationsService.getResponse({
+        code: 201,
+        value: value,
+        message: 'Speech to text generator was successful',
+      });
+
+      return res.status(201).json(response);
+    } catch (error) {
+      console.log(error);
+
+      next(error);
+    }
+  }
+
   @Get()
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
