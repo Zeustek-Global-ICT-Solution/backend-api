@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AssistantsService } from './services/ssistants.service';
+import { AssistantsService } from './services/assistants.service';
 import { AssistantsController } from './controllers/assistants.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Assistant, AssistantSchema } from '@app/shared/schemas';

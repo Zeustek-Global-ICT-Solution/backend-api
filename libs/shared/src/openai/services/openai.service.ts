@@ -123,13 +123,14 @@ export class OpenAIService {
   /* Create personal assistant
    *
    */
-  public async createAssistant(payload: any) {
+  public async createAssistant(payload: any, user: any) {
     try {
       const assistant = await this.openClient.beta.assistants.create({
         instructions: payload.instructions,
-        name: payload.name,
+        name: user.businessName,
+        description: user.about,
         tools: [{ type: 'retrieval' }],
-        model: 'gpt-4',
+        model: 'gpt-3.5-turbo-0125',
       });
 
       if (payload.file) {

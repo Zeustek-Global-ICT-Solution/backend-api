@@ -13,7 +13,7 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { AssistantsService } from '../services/ssistants.service';
+import { AssistantsService } from '../services/assistants.service';
 import { NextFunction } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 

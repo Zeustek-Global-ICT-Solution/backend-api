@@ -12,7 +12,7 @@ import { AssistantDocument } from '@app/shared/schemas';
 import { OpenAIService } from '@app/shared/openai/services/openai.service';
 
 import { UsersService } from 'src/users/services/users.service';
-import { Buffer, Blob } from 'buffer';
+import * as fs from 'fs';
 
 @Injectable()
 export class AssistantsService extends BaseService {
@@ -24,35 +24,35 @@ export class AssistantsService extends BaseService {
     super();
   }
 
-  async create(payload: any): Promise<CreatedModel> {
+  async create(payload: any): Promise<any> {
     try {
       // Get the user information
 
       const user = await this.usersService.findOne(payload.user);
-      const file = await this.generateAndUploadFile(
-        JSON.stringify(user.productOrServices),
-      );
+      const file = await this.generateAndUploadFile(user);
 
-      if (!user.isWhatsAppConneted) {
-        throw new AppException(400, 'Whatsapp account not connected');
-      }
+      // if (!user.isWhatsAppConneted) {
+      //   throw new AppException(400, 'Whatsapp account not connected');
+      // }
 
       Object.assign(payload, { file });
 
-      // Create openai assistance
-      const assistant = await this.openAIService.createAssistant(payload);
+      // // Create openai assistance
+      const assistant = await this.openAIService.createAssistant(payload, user);
 
-      Object.assign(payload, {
-        name: assistant.name,
-        assistantId: assistant.id,
-        description: assistant.description,
-        instructions: assistant.instructions,
-        metadata: assistant.metadata,
-        fileIds: assistant.file_ids,
-      });
+      // Object.assign(payload, {
+      //   name: assistant.name,
+      //   assistantId: assistant.id,
+      //   description: assistant.description,
+      //   instructions: assistant.instructions,
+      //   user: payload.user,
+      //   metadata: assistant.metadata,
+      //   fileIds: assistant.file_ids,
+      // });
 
-      // Save the Assistant information on the database
-      return await this.repository.create(payload);
+      // // Save the Assistant information on the database
+      // return await this.repository.create(payload);
+      return assistant;
     } catch (error) {
       throw new AppException(400, error.message);
     }
@@ -123,13 +123,10 @@ export class AssistantsService extends BaseService {
     }
   }
 
-  private async generateAndUploadFile(content: string): Promise<any> {
-    const blob = new Blob(['ali'], { type: 'text/plain' });
-    const b: any = blob;
+  private async generateAndUploadFile(user): Promise<any> {
+    const filePath = `${user.businessName}.json`;
+    fs.writeFileSync(filePath, JSON.stringify(user, null, 2), 'utf-8');
 
-    b.lastModifiedDate = new Date();
-    b.name = 'assistant.txt';
-
-    return b as File;
+    return filePath;
   }
 }
