@@ -48,7 +48,7 @@ export class Assistant {
   fileIds: string[];
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
-  userId: Types.ObjectId;
+  user: Types.ObjectId;
 }
 
 export const AssistantSchema = SchemaFactory.createForClass(Assistant);

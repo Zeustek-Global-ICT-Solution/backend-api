@@ -157,9 +157,10 @@ export class ConversationsService extends BaseService {
       // // console.log(typeof );
       // const { error } = res.data;
 
-      if (!result.data) {
+      if (!result?.data) {
         throw new AppException(404, 'Error generating image');
       }
+
       if (payload?.conversation === '') {
         const newConversation = await this.repository.create({
           title: payload.content,
@@ -196,9 +197,7 @@ export class ConversationsService extends BaseService {
       return await this.promptsService.findOneByIdAndPopulate(prompt.id);
       // return res.data;
     } catch (error) {
-      console.log(error);
-
-      throw new AppException(400, error.message);
+      throw new AppException(error.code, error.message);
     }
   }
 

@@ -5,6 +5,7 @@ import { OPENAI_TOKEN } from '@app/shared/constant';
 import OpenAI from 'openai';
 import * as fs from 'fs';
 import { APIPromise } from 'openai/core';
+import { AppException } from '@app/shared/exceptions';
 
 @Injectable()
 export class OpenAIService {
@@ -48,10 +49,11 @@ export class OpenAIService {
         n: payload.variation,
         size: payload.size,
       });
+
+      if (!images) throw new AppException(400, 'Error generating image');
       return images;
-      console.log(images);
     } catch (error) {
-      console.error(error.message);
+      throw new AppException(404, 'Error generating image');
     }
   }
 
