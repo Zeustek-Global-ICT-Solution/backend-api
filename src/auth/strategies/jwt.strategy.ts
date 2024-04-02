@@ -20,7 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: any) {
     const credential = {};
-
     const isEmail = Utils.isEmail(payload.username);
     if (isEmail) {
       Object.assign(credential, {

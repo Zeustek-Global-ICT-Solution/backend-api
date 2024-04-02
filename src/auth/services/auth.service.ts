@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Utils } from './../../../libs/shared/src/utils/utils/index';
 import { UsersService } from './../../users/services/users.service';
-import { Inject, Injectable } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AppException } from '@app/shared';
 import * as bcrypt from 'bcrypt';

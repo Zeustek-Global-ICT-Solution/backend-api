@@ -175,6 +175,13 @@ export class User {
     required: false,
     default: false,
   })
+  disabled: boolean;
+
+  @Prop({
+    type: 'boolean',
+    required: false,
+    default: false,
+  })
   isPhoneVerified: boolean;
 
   @Prop({

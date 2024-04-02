@@ -62,6 +62,23 @@ export class UsersController {
       next(error);
     }
   }
+
+  @Get('disable-account')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async disableAccount(@Req() req, @Res() res, @Next() next: NextFunction) {
+    try {
+      const value = await this.usersService.disableUserAccount(req.user.id);
+      const response = await this.usersService.getResponse({
+        code: 304,
+        value: value,
+        message: 'Users account is successfully deleted',
+      });
+      return res.status(304).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
   @Get('/profile')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
