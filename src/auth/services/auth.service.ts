@@ -83,6 +83,9 @@ export class AuthService extends BaseService {
       }
 
       const user = await this.usersService.findOne(payload);
+      if (user.disabled) {
+        return null;
+      }
 
       const isMatch = await bcrypt.compare(
         createAuthDto.password,
