@@ -36,7 +36,7 @@ export class UsersService extends BaseService {
 
   async disableUserAccount(id: any): Promise<any> {
     try {
-      return await this.repository.updateOne({ id }, { disabled: true });
+      return await this.repository.updateOne({ _id: id }, { disabled: true });
     } catch (error) {
       throw new AppException(400, error.message);
     }
