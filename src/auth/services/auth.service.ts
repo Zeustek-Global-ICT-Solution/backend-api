@@ -34,6 +34,7 @@ export class AuthService extends BaseService {
       if (user) {
         throw new AppException(409, 'User already registered');
       }
+
       const payload = { password: createAuthDto.password };
 
       const isEmail = Utils.isEmail(createAuthDto.id);
