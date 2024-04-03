@@ -28,25 +28,28 @@ export class AuthService extends BaseService {
   async register(createAuthDto: any) {
     try {
       const user = await this.usersService.findOne({
-        $or: [{ email: createAuthDto.id }, { phone: createAuthDto.id }],
+        $or: [
+          { email: createAuthDto.id.trim() },
+          { phone: createAuthDto.id.trim() },
+        ],
       });
 
       if (user) {
         throw new AppException(409, 'User already registered');
       }
 
-      const payload = { password: createAuthDto.password };
+      const payload = { password: createAuthDto.password.trim() };
 
-      const isEmail = Utils.isEmail(createAuthDto.id);
+      const isEmail = Utils.isEmail(createAuthDto.id.trim());
 
       if (isEmail) {
-        Object.assign(payload, { email: createAuthDto.id });
+        Object.assign(payload, { email: createAuthDto.id.trim() });
       } else {
-        Object.assign(payload, { phone: createAuthDto.id });
+        Object.assign(payload, { phone: createAuthDto.id.trim() });
       }
       const createdUser = await this.usersService.create(payload);
 
-      return await this.usersService.findOneById(createdUser.id);
+      return await this.usersService.findOneById(createdUser.id.trim());
     } catch (error) {
       throw new AppException(400, error.message);
     }
@@ -75,12 +78,12 @@ export class AuthService extends BaseService {
     try {
       const payload = {};
 
-      const isEmail = await Utils.isEmail(createAuthDto.id);
+      const isEmail = await Utils.isEmail(createAuthDto.id.trim());
 
       if (isEmail) {
-        Object.assign(payload, { email: createAuthDto.id });
+        Object.assign(payload, { email: createAuthDto.id.trim() });
       } else {
-        Object.assign(payload, { phone: createAuthDto.id });
+        Object.assign(payload, { phone: createAuthDto.id.trim() });
       }
 
       const user = await this.usersService.findOne(payload);
