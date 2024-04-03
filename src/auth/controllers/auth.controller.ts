@@ -65,6 +65,8 @@ export class AuthController {
     try {
       const value = await this.authService.login(req.user);
 
+      console.log(value);
+
       const response = await this.authService.getResponse({
         code: 200,
         token: value.access_token,
