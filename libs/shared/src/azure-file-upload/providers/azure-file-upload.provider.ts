@@ -6,8 +6,8 @@ export const AzureFileUploadProviders = [
   {
     provide: AZURE_FILE_UPLOAD_TOKEN,
     useFactory: async (config: ConfigService) => {
-      const blobClientService = await BlobServiceClient.fromConnectionString(
-        config.get<string>('service.azure.fileUploadConnectionString'),
+      const blobClientService = BlobServiceClient.fromConnectionString(
+        config.get<string>('service.azure.fileUploadConnectionString')
       );
       return blobClientService;
     },
