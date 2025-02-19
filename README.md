@@ -1,49 +1,54 @@
-![Logo](https://res.cloudinary.com/dsmzgdshz/image/upload/v1706002133/samples/jummai-black_cb6y8o.png)
-
-# Jummai-Api
+<p align="center">
+  <img src="https://res.cloudinary.com/dsmzgdshz/image/upload/v1706002133/samples/jummai-black_cb6y8o.png" alt="Jummai Logo" width="300"/>
+  <h1 align="center">Jummai API</h1>
+  <p align="center">Hausa-Language AI Platform with Generative Superpowers 🌟</p>
+</p>
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
-[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
+[![NestJS](https://img.shields.io/badge/-NestJS-ea2845?logo=nestjs&logoColor=white)](https://nestjs.com/)
+[![TypeScript](https://img.shields.io/badge/-TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-## Description
+## 📖 Table of Contents
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [API Reference](#-api-reference)
+- [Contributing](#-contributing)
+- [License](#-license)
 
-Jummai Api is restful base api build with nestjs for generative AI platform call jummai
+## 🚀 Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**Jummai API** powers Hausa-language AI experiences with:
+- **🗣️ Hausa Speech Recognition** - Convert spoken Hausa to text
+- **📢 Hausa Text-to-Speech** - Generate natural Hausa speech from text
+- **🖼️ AI Image Generation** - Create images from Hausa text prompts
+- **📝 Intelligent Text Generation** - Hausa-language ChatGPT-like interactions
+- **🌐 RESTful API** - Standardized endpoints for easy integration
 
-## Installation
+## 💻 Tech Stack
 
-```bash
-$ yarn install
-```
+**Core Technologies:**
+- [NestJS](https://nestjs.com/) - Backend framework
+- [TypeScript](https://www.typescriptlang.org/) - Primary language
+- [TensorFlow.js](https://www.tensorflow.org/js) - ML models (optional)
+- [FFmpeg](https://ffmpeg.org/) - Audio processing
+- [Cloudinary](https://cloudinary.com/) - Media storage
 
-## Running the app
+**AI Services:**
+- OpenAI GPT-3/4 - Text generation
+- Hugging Face Transformers - Hausa NLP models
+- Google Cloud Speech-to-Text - Speech recognition
+- Stable Diffusion - Image generation
 
-```bash
-# development
-$ yarn run start
+## 🛠️ Getting Started
 
-# watch mode
-$ yarn run start:dev
+### Prerequisites
+- Node.js v18+
+- Yarn package manager
+- Redis (for caching)
+- PostgreSQL database
 
-# production mode
-$ yarn run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
-## License
-
-Jummai Api is [MIT licensed](LICENSE).
+### Installation
+1. Clone repository:
+   ```bash
+   git clone https://github.com/your-username/jummai-api.git
