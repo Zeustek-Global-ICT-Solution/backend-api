@@ -36,8 +36,8 @@
 
 **AI Services:**
 - OpenAI GPT-3/4 - Text generation
-- Hugging Face Transformers - Hausa NLP models
-- Google Cloud Speech-to-Text - Speech recognition
+- Hugging Face Transformers - zeustek Hausa NLP models
+- Azure Cloud Speech-to-Text - Speech recognition
 - Stable Diffusion - Image generation
 
 ## 🛠️ Getting Started
